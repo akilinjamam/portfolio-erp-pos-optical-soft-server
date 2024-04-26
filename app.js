@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const allRoutes = require('./src/routes');
 const passport = require('passport');
+const globalErrorHandler = require('./src/errors/globalErrorHandler');
 
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
@@ -24,6 +25,10 @@ app.get('/', (req, res) => {
         message: 'welcome to our server!'
     })
 })
+
+// global error handle
+
+app.use(globalErrorHandler)
 
 // wrong route access
 app.use((req, res, next) => {
