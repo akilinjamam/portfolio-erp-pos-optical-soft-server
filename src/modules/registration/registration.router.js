@@ -7,7 +7,6 @@ const registrationRouter = require('express').Router();
 
 registrationRouter.post('/create-registration', runValidator(registrationSchema), createRegistrationController);
 
-
 module.exports = registrationRouter;
 
 
