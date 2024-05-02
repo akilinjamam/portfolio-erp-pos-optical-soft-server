@@ -13,7 +13,7 @@ module.exports.runValidator = (schema) => {
 
         if (error) {
             return res.status(200).json({
-                success: true,
+                success: false,
                 message: 'validation failed',
                 total_error: error.details.length,
                 error: error.details.map(item => {
