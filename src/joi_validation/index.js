@@ -12,7 +12,7 @@ module.exports.runValidator = (schema) => {
         )
 
         if (error) {
-            return res.status(400).json({
+            return res.status(200).json({
                 success: true,
                 message: 'validation failed',
                 total_error: error.details.length,
