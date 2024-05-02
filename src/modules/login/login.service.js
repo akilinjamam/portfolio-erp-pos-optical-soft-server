@@ -39,11 +39,11 @@ const createLoginService = async (data) => {
         const token = jwt.sign(payload, process.env.SECRET_KEY, {
             expiresIn: '7d'
         })
-
         return {
             status: 200,
             success: true,
             token: 'Bearer ' + token,
+            email: user.email,
             result: 'user is logged in successfully'
         }
     }

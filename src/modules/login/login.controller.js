@@ -10,7 +10,8 @@ const createLoginController = tryCatchAsync(
             status: result.status,
             success: result.success,
             token: result.token && result.token,
-            result: result.result
+            result: result.result,
+            email: result.email
         })
     }
 )
