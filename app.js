@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 // global error handle
 
-app.use(globalErrorHandler)
+// app.use(globalErrorHandler)
 
 // wrong route access
 app.use((req, res, next) => {

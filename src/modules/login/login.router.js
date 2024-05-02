@@ -5,7 +5,7 @@ const passport = require('passport')
 
 const loginRouter = require('express').Router();
 
-// 
+
 loginRouter.post('/create-login', runValidator(loginSchema), createLoginController);
 loginRouter.get('/', passport.authenticate('jwt', { session: false }), getLoginController)
 

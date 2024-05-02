@@ -2,11 +2,21 @@ const User = require("./registration.model");
 
 const createRegistrationService = async (data) => {
 
-    const user = await User.findOne({ email: data.email });
+    const username = await User.findOne({ username: data.username });
+    const email = await User.findOne({ email: data.email });
 
-    if (user) return {
+    if (username && email) return {
         status: 409,
-        result: 'user data already Exists'
+        result: 'username and email already Exist'
+    }
+
+    if (username) return {
+        status: 409,
+        result: 'username already Exists'
+    }
+    if (email) return {
+        status: 409,
+        result: 'email already Exists'
     }
 
     const newUser = new User(data);
