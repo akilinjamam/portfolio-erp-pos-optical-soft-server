@@ -1,0 +1,18 @@
+const { runValidator } = require('../../joi_validation');
+const { bulkProductValidationSchema } = require('../../joi_validation/productScema');
+
+const { createProductController, getProductController, getSingleProductController, updateProductController, deleteProductController } = require('./products.controller');
+
+
+const productRouter = require('express').Router();
+
+
+productRouter.post('/create-product', runValidator(bulkProductValidationSchema), createProductController);
+productRouter.get('/', getProductController);
+productRouter.get('/:id', getSingleProductController);
+productRouter.patch('/:id', updateProductController);
+productRouter.delete('/:id', deleteProductController);
+
+module.exports = productRouter;
+
+

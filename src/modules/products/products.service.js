@@ -1,0 +1,49 @@
+const Products = require("./products.model")
+
+
+const createProductService = async (data) => {
+    const result = await Products.insertMany(data);
+    return {
+        status: 201,
+        result
+    }
+}
+const getProductService = async () => {
+    const result = await Products.find({})
+    return {
+        status: 200,
+        result
+    }
+}
+
+
+const getSingleProductService = async (id) => {
+    const result = await Products.find({ _id: id })
+    return {
+        status: 200,
+        result
+    }
+}
+const updateProductService = async (id, body) => {
+    const result = await Products.updateOne({ _id: id }, { $set: body }, { runValidator: true })
+    return {
+        status: 200,
+        result
+    }
+}
+
+const deleteProductService = async (id) => {
+    const result = await Products.deleteOne({ _id: id })
+    return {
+        status: 200,
+        result
+    }
+}
+
+module.exports = {
+    createProductService,
+    getProductService,
+    getSingleProductService,
+    updateProductService,
+    deleteProductService
+}

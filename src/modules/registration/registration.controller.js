@@ -19,9 +19,6 @@ const createRegistrationController = tryCatchAsync(
                 result: result.result
             })
         })
-
-
-
     }
 )
 
