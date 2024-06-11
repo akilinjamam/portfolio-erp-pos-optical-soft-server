@@ -8,15 +8,15 @@ const productSchema = mongoose.Schema({
         requrired: true,
     },
     salesPrice: {
-        type: Number,
+        type: String,
         requrired: true,
     },
     actualSalesPrice: {
-        type: Number,
+        type: String,
         default: 0
     },
     purchasePrice: {
-        type: Number,
+        type: String,
         requrired: true,
     },
     category: {
@@ -24,11 +24,7 @@ const productSchema = mongoose.Schema({
         requrired: true,
     },
     quantity: {
-        type: Number,
-        required: true
-    },
-    quantity: {
-        type: Number,
+        type: String,
         required: true
     },
     date: {

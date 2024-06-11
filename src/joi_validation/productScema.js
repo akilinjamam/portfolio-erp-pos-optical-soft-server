@@ -2,11 +2,11 @@ const Joi = require("joi");
 
 const productValidationSchema = Joi.object({
     productName: Joi.string().required(),
-    salesPrice: Joi.number().required(),
-    actualSalesPrice: Joi.number().default(0),
-    purchasePrice: Joi.number().required(),
+    salesPrice: Joi.string().required(),
+    actualSalesPrice: Joi.string().default('not included'),
+    purchasePrice: Joi.string().required(),
     category: Joi.string().required(),
-    quantity: Joi.number().required(),
+    quantity: Joi.string().required(),
     date: Joi.string().required(),
     barcode: Joi.string().required(),
     material: Joi.string().required(),
