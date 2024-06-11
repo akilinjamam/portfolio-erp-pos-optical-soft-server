@@ -12,7 +12,7 @@ const productValidationSchema = Joi.object({
     frameType: Joi.string().required(),
     size: Joi.string().required(),
     shape: Joi.string().required(),
-    img: Joi.string().optional(),
+    img: Joi.string(),
     inStock: Joi.boolean().default(true)
 });
 
