@@ -54,6 +54,14 @@ const productSchema = mongoose.Schema({
     img: {
         type: String,
     },
+    recorderName: {
+        type: String,
+        required: true
+    },
+    recorderEmail: {
+        type: String,
+        required: true
+    },
     inStock: {
         type: Boolean,
         default: true
