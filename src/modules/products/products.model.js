@@ -53,7 +53,6 @@ const productSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        requried: true
     },
     inStock: {
         type: Boolean,
