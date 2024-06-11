@@ -10,6 +10,7 @@ const productRouter = require('express').Router();
 
 productRouter.post('/create-product', runValidator(bulkProductValidationSchema), createProductController);
 productRouter.get('/', passport.authenticate('jwt', { session: false }), getProductController);
+// productRouter.get('/', getProductController);
 productRouter.get('/:id', getSingleProductController);
 productRouter.patch('/:id', updateProductController);
 productRouter.delete('/:id', deleteProductController);

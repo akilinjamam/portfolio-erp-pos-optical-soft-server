@@ -8,7 +8,27 @@ const createProductService = async (data) => {
         result
     }
 }
-const getProductService = async () => {
+const getProductService = async (queryValue) => {
+    // query
+    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName']
+
+    if (queryValue) {
+        const search = await Products.aggregate([
+            {
+                $match: {
+                    $or: fields?.map((item) => {
+                        return { [item]: { $regex: queryValue, $options: 'i' } }
+                    }),
+                },
+            },
+        ])
+        return {
+            status: 200,
+            result: search
+        }
+    }
+
+
     const result = await Products.find({})
     return {
         status: 200,

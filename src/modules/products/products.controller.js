@@ -12,10 +12,10 @@ const createProductController = tryCatchAsync(
     }
 )
 
-
 const getProductController = tryCatchAsync(
     async (req, res) => {
-        const result = await getProductService();
+        const { searchTerm } = req.query;
+        const result = await getProductService(searchTerm);
         res.status(200).json({
             status: result.status,
             success: true,
