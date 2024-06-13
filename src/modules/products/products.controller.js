@@ -50,8 +50,8 @@ const updateProductController = tryCatchAsync(
 )
 const deleteProductController = tryCatchAsync(
     async (req, res) => {
-        const { ids } = req.body
-        const result = await deleteProductService(ids)
+
+        const result = await deleteProductService(req.body)
         res.status(200).json({
             status: result.status,
             success: true,
