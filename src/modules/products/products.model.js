@@ -27,10 +27,6 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    date: {
-        type: String,
-        required: true
-    },
     barcode: {
         type: String,
         requried: true

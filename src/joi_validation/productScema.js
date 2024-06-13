@@ -7,7 +7,6 @@ const productValidationSchema = Joi.object({
     purchasePrice: Joi.string().required(),
     category: Joi.string().required(),
     quantity: Joi.string().required(),
-    date: Joi.date().required(),
     barcode: Joi.string().required(),
     material: Joi.string().required(),
     frameType: Joi.string().required(),
