@@ -52,8 +52,8 @@ const updateProductService = async (id, body) => {
     }
 }
 
-const deleteProductService = async (id) => {
-    const result = await Products.deleteOne({ _id: id })
+const deleteProductService = async (ids) => {
+    const result = await Products.deleteMany({ _id: { $in: ids } });
     return {
         status: 200,
         result

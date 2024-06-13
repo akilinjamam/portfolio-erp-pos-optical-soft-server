@@ -13,7 +13,7 @@ productRouter.get('/', passport.authenticate('jwt', { session: false }), getProd
 // productRouter.get('/', getProductController);
 productRouter.get('/:id', getSingleProductController);
 productRouter.patch('/:id', updateProductController);
-productRouter.delete('/:id', deleteProductController);
+productRouter.delete('/bulk-delete', deleteProductController);
 
 module.exports = productRouter;
 
