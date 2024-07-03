@@ -10,7 +10,7 @@ const cookieParser = require('cookie-parser');
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 
 // Initialaizing Passport:
 app.use(passport.initialize());
@@ -20,6 +20,11 @@ allRoutes.map(route => {
     return app.use(`/api/v1/${route.path}`, route.route)
 })
 
+const corsOptions = {
+    origin: ['https://opticalsoft-client.vercel.app', 'http://localhost:5173'],
+};
+
+app.use(cors(corsOptions))
 
 app.get('/', (req, res) => {
     res.status(200).json({
