@@ -22,11 +22,10 @@ allRoutes.map(route => {
 
 const corsOptions = {
     origin: ['https://opticalsoft-client.vercel.app', 'http://localhost:5173'],
+    credentials: true
 };
 
 app.use(cors(corsOptions))
-
-app.options('*', cors(corsOptions));
 
 app.get('/', (req, res) => {
     res.status(200).json({
