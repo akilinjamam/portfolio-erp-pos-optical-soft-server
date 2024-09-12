@@ -15,17 +15,12 @@ app.use(cookieParser());
 // Initialaizing Passport:
 app.use(passport.initialize());
 
+app.use(cors({ origin: ['http://localhost:5173', 'https://opticalsoft-client.vercel.app'], credentials: true }))
+
 // all routes:
 allRoutes.map(route => {
     return app.use(`/api/v1/${route.path}`, route.route)
 })
-
-const corsOptions = {
-    origin: ['https://opticalsoft-client.vercel.app', 'http://localhost:5173'],
-    credentials: true
-};
-
-app.use(cors(corsOptions))
 
 app.get('/', (req, res) => {
     res.status(200).json({
