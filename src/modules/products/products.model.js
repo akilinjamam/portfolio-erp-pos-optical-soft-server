@@ -33,19 +33,19 @@ const productSchema = mongoose.Schema({
     },
     material: {
         type: String,
-        requried: true
+
     },
     frameType: {
         type: String,
-        requried: true
+
     },
     size: {
         type: String,
-        requried: true
+
     },
     shape: {
         type: String,
-        requried: true
+
     },
     img: {
         type: String,
