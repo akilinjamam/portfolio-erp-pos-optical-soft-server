@@ -12,6 +12,7 @@ const createSalesService = async (data) => {
             throw new Error('data not added')
         }
 
+
         const bulkUpdate = data?.products?.map(update => ({
             updateOne: {
                 filter: { _id: update?.id },
