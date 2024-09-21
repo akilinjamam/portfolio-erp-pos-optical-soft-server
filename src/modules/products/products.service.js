@@ -10,7 +10,7 @@ const createProductService = async (data) => {
 }
 const getProductService = async (queryValue) => {
     // query
-    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName']
+    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt']
 
     if (queryValue) {
         const search = await Products.aggregate([
