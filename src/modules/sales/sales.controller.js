@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createSalesService } = require("./sales.service")
+const { createSalesService, getSalesService } = require("./sales.service")
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
@@ -12,6 +12,18 @@ const createSalesController = tryCatchAsync(
     }
 )
 
+const getSalesController = tryCatchAsync(
+    async (req, res) => {
+        const result = await getSalesService()
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
 module.exports = {
-    createSalesController
+    createSalesController,
+    getSalesController
 }

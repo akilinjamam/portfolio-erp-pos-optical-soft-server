@@ -39,7 +39,15 @@ const createSalesService = async (data) => {
         throw new Error(error);
     }
 }
+const getSalesService = async () => {
+    const result = await Sale.find({});
+    return {
+        status: 201,
+        result
+    }
+}
 
 module.exports = {
-    createSalesService
+    createSalesService,
+    getSalesService
 }
