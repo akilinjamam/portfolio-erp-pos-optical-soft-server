@@ -17,6 +17,8 @@ app.use(passport.initialize());
 
 app.use(cors({ origin: ['https://opticalsoft-client-eta.vercel.app', 'http://localhost:5173'], credentials: true }))
 
+
+
 // all routes:
 allRoutes.map(route => {
     return app.use(`/api/v1/${route.path}`, route.route)
