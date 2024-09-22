@@ -22,6 +22,7 @@ app.use(
             'https://opticalsoft-client.vercel.app',
             'http://localhost:5173',
         ],
+        methods: 'GET,POST,PUT,DELETE',
         credentials: true,
     }),
 );
