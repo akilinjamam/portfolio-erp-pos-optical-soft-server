@@ -4,10 +4,9 @@ const app = express();
 const cors = require('cors');
 const allRoutes = require('./src/routes');
 const passport = require('passport');
-const globalErrorHandler = require('./src/errors/globalErrorHandler');
+// const globalErrorHandler = require('./src/errors/globalErrorHandler');
 const cookieParser = require('cookie-parser');
 
-app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
