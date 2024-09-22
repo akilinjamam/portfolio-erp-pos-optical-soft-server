@@ -8,7 +8,7 @@ const createProductService = async (data) => {
         result
     }
 }
-const getProductService = async (queryValue) => {
+const getProductService = async (queryValue, from, to) => {
     // query
     const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt']
 
@@ -24,7 +24,27 @@ const getProductService = async (queryValue) => {
         ])
         return {
             status: 200,
+            total: search?.length,
             result: search
+        }
+    }
+
+    if (from && to) {
+        const range = await Products.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(from),
+                        $lte: new Date(to)
+                    }
+                }
+            }
+        ])
+
+        return {
+            status: 200,
+            total: range?.length,
+            result: range
         }
     }
 
@@ -32,6 +52,7 @@ const getProductService = async (queryValue) => {
     const result = await Products.find({})
     return {
         status: 200,
+        total: result?.length,
         result
     }
 }
