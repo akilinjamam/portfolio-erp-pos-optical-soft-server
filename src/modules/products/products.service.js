@@ -10,7 +10,7 @@ const createProductService = async (data) => {
 }
 const getProductService = async (queryValue, inStockValue) => {
     // query
-    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt']
+    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt', 'inStock']
 
 
     if (queryValue || inStockValue) {
@@ -23,7 +23,8 @@ const getProductService = async (queryValue, inStockValue) => {
                     $match: {
                         $or: fields?.map((item) => {
                             return { [item]: { $regex: queryValue, $options: 'i' } }
-                        })
+                        }),
+
                     }
                 },
             ]
@@ -37,10 +38,9 @@ const getProductService = async (queryValue, inStockValue) => {
                 {
                     $match: {
                         $or: fields?.map((item) => {
-                            const fieldValues = { [item]: { $regex: queryValue, $options: 'i' } }
-                            return ({ inStock: inStockValue === 'true' ? true : false }, fieldValues)
-                        }),
-                    },
+                            return { [item]: { $regex: queryValue, $options: 'i' } }
+                        })
+                    }
                 },
             ]
 
