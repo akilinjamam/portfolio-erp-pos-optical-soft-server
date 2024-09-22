@@ -8,72 +8,30 @@ const createProductService = async (data) => {
         result
     }
 }
-const getProductService = async (queryValue, inStockValue) => {
+const getProductService = async (queryValue) => {
     // query
-    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt', 'inStock']
+    const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'barcode', 'material', 'frameType', 'size', 'shape', 'recorderEmail', 'recorderName', 'createdAt']
 
-
-    if (queryValue || inStockValue) {
-
-        let = aggregationValue = []
-
-        if (queryValue && !inStockValue) {
-            const withQueryValue = [
-                {
-                    $match: {
-                        $or: fields?.map((item) => {
-                            return { [item]: { $regex: queryValue, $options: 'i' } }
-                        }),
-
-                    }
+    if (queryValue) {
+        const search = await Products.aggregate([
+            {
+                $match: {
+                    $or: fields?.map((item) => {
+                        return { [item]: { $regex: queryValue, $options: 'i' } }
+                    }),
                 },
-            ]
-
-            aggregationValue = withQueryValue
-        }
-
-        if (queryValue && inStockValue) {
-
-            const withQueryValueAndStockSearch = [
-                {
-                    $match: {
-                        $or: fields?.map((item) => {
-                            return { [item]: { $regex: queryValue, $options: 'i' } }
-                        })
-                    }
-                },
-            ]
-
-            aggregationValue = withQueryValueAndStockSearch
-        }
-        if (inStockValue && !queryValue) {
-
-            const withStockSearch = [
-                {
-                    $match: {
-                        inStock: inStockValue === 'true' ? true : false
-                    }
-                },
-            ]
-
-            aggregationValue = withStockSearch
-        }
-
-        const search = await Products.aggregate(aggregationValue)
-
-
+            },
+        ])
         return {
             status: 200,
-            total: search?.length,
             result: search
         }
     }
 
 
-    const result = await Products.find()
+    const result = await Products.find({})
     return {
         status: 200,
-        total: result?.length,
         result
     }
 }
