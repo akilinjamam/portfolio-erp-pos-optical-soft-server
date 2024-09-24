@@ -40,6 +40,7 @@ const createSalesService = async (data) => {
     }
 }
 const getSalesService = async (queryValue, from, to) => {
+    console.log(queryValue)
     // query
     const fields = ['customerName', 'address', 'phoneNumber', 'createdAt']
 
