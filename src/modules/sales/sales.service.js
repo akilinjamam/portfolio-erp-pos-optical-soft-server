@@ -39,10 +39,51 @@ const createSalesService = async (data) => {
         throw new Error(error);
     }
 }
-const getSalesService = async () => {
-    const result = await Sale.find({});
+const getSalesService = async (queryValue, from, to) => {
+    // query
+    const fields = ['customerName', 'address', 'phoneNumber', 'createdAt']
+
+    if (queryValue) {
+        const search = await Sale.aggregate([
+            {
+                $match: {
+                    $or: fields?.map((item) => {
+                        return { [item]: { $regex: queryValue, $options: 'i' } }
+                    }),
+                },
+            },
+        ])
+        return {
+            status: 200,
+            total: search?.length,
+            result: search
+        }
+    }
+
+    if (from && to) {
+        const range = await Sale.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(from),
+                        $lte: new Date(to)
+                    }
+                }
+            }
+        ])
+
+        return {
+            status: 200,
+            total: range?.length,
+            result: range
+        }
+    }
+
+
+    const result = await Sale.find({})
     return {
-        status: 201,
+        status: 200,
+        total: result?.length,
         result
     }
 }

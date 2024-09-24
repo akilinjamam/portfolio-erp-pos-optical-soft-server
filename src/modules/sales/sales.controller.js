@@ -14,9 +14,11 @@ const createSalesController = tryCatchAsync(
 
 const getSalesController = tryCatchAsync(
     async (req, res) => {
-        const result = await getSalesService()
+        const { searchTerm, from, to } = req.query;
+        const result = await getSalesService(searchTerm, from, to)
         res.status(201).json({
             status: result.status,
+            total: result.total,
             success: true,
             result: result.result
         })
