@@ -26,7 +26,18 @@ const createRegistrationService = async (data) => {
         result: newUser
     }
 }
+const updateUserInfoService = async (id, payload) => {
+
+    const result = await User.updateOne({ _id: id }, { $set: payload }, { runValidator: true })
+
+    console.log(result)
+    return {
+        status: 201,
+        result: result
+    }
+}
 
 module.exports = {
-    createRegistrationService
+    createRegistrationService,
+    updateUserInfoService
 }

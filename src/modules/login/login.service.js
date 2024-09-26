@@ -34,7 +34,8 @@ const createLoginService = async (data) => {
         const payload = {
             id: user._id,
             email: user.email,
-            username: user.username
+            username: user.username,
+            role: user.role
         }
 
         const token = jwt.sign(payload, process.env.SECRET_KEY, {
