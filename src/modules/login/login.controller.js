@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync");
-const { createLoginService, getLoginService } = require("./login.service");
+const { createLoginService, getLoginService, getUserByIdService } = require("./login.service");
 
 const createLoginController = tryCatchAsync(
     async (req, res) => {
@@ -29,7 +29,22 @@ const getLoginController = tryCatchAsync(
     }
 )
 
+const getUserByIdController = tryCatchAsync(
+    async (req, res) => {
+        const { id } = req.params;
+
+        const result = await getUserByIdService(id);
+
+        res.status(200).json({
+            status: result.status,
+            success: result.success,
+            result: result.result
+        })
+    }
+)
+
 module.exports = {
     createLoginController,
-    getLoginController
+    getLoginController,
+    getUserByIdController
 }

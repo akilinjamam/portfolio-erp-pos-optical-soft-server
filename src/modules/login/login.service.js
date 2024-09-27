@@ -62,7 +62,19 @@ const getLoginService = async () => {
     }
 }
 
+const getUserByIdService = async (id) => {
+    const result = await User.findById(id);
+
+    return {
+        status: 200,
+        success: true,
+        result
+    }
+
+}
+
 module.exports = {
     createLoginService,
-    getLoginService
+    getLoginService,
+    getUserByIdService
 }
