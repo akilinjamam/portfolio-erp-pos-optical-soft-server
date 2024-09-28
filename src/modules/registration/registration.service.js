@@ -37,7 +37,19 @@ const updateUserInfoService = async (id, payload) => {
     }
 }
 
+const removeUserInfoService = async (id) => {
+
+    const result = await User.deleteOne({ _id: id }, { runValidator: true })
+
+    console.log(result)
+    return {
+        status: 201,
+        result: result
+    }
+}
+
 module.exports = {
     createRegistrationService,
-    updateUserInfoService
+    updateUserInfoService,
+    removeUserInfoService
 }

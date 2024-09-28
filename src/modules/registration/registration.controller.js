@@ -1,7 +1,7 @@
 const { jwtDecoder } = require("../../jwtDecode/jwtDecode");
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync");
 const User = require("./registration.model");
-const { createRegistrationService, updateUserInfoService } = require("./registration.service")
+const { createRegistrationService, updateUserInfoService, removeUserInfoService } = require("./registration.service")
 const bcrypt = require('bcrypt');
 const createRegistrationController = tryCatchAsync(
     async (req, res) => {
@@ -30,8 +30,8 @@ const updateUserRegistrationController = tryCatchAsync(
         if (!token) {
             throw new Error('header is not set')
         }
-        const splitedToken = token?.split(' ')[1];
 
+        const splitedToken = token?.split(' ')[1];
         const check = jwtDecoder(splitedToken);
 
         const findUser = await User.findOne({ _id: check?.id });
@@ -51,7 +51,36 @@ const updateUserRegistrationController = tryCatchAsync(
     }
 )
 
+const removeUserRegistrationController = tryCatchAsync(
+    async (req, res) => {
+        const token = req?.headers?.authorization;
+
+        if (!token) {
+            throw new Error('header is not set')
+        }
+
+        const splitedToken = token?.split(' ')[1];
+        const check = jwtDecoder(splitedToken);
+
+        const findUser = await User.findOne({ _id: check?.id });
+
+        if (findUser?.role !== 'admin') {
+            throw new Error('only admin can update user')
+        }
+
+        const result = await removeUserInfoService(req?.params?.id)
+
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+
+    }
+)
+
 module.exports = {
     createRegistrationController,
-    updateUserRegistrationController
+    updateUserRegistrationController,
+    removeUserRegistrationController
 }
