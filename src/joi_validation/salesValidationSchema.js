@@ -24,6 +24,7 @@ const salesSchema = Joi.object({
     customerName: Joi.string().default('unknown'),
     phoneNumber: Joi.string().default('blank'),
     address: Joi.string().default('blank'),
+    referredBy: Joi.string().required(),
     products: Joi.array().items(productSchema).required() // Array of products using the product schema
 });
 
