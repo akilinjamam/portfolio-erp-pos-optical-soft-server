@@ -59,6 +59,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    referredBy: {
+        type: String,
+        required: true
+    },
     inStock: {
         type: Boolean,
         required: true
