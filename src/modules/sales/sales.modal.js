@@ -59,10 +59,6 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    referredBy: {
-        type: String,
-        required: true
-    },
     inStock: {
         type: Boolean,
         required: true
@@ -80,6 +76,10 @@ const salesSchema = new mongoose.Schema({
         default: 'blank'
     },
     address: {
+        type: String,
+        default: 'blank'
+    },
+    referredBy: {
         type: String,
         default: 'blank'
     },
