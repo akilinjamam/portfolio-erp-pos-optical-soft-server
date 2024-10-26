@@ -19,12 +19,64 @@ const productSchema = Joi.object({
     inStock: Joi.boolean().required()
 });
 
+
+// discount: {
+//     type: String,
+//     default: '0'
+// },
+// advance: {
+//     type: String,
+//     default: '0'
+// },
+// leftSph: {
+//     type: String,
+//     default: 'blank'
+// },
+// leftCyl: {
+//     type: String,
+//     default: 'blank'
+// },
+// leftAxis: {
+//     type: String,
+//     default: 'blank'
+// },
+// leftNear: {
+//     type: String,
+//     default: 'blank'
+// },
+// rightSph: {
+//     type: String,
+//     default: 'blank'
+// },
+// rightCyl: {
+//     type: String,
+//     default: 'blank'
+// },
+// rightAxis: {
+//     type: String,
+//     default: 'blank'
+// },
+// rightNear: {
+//     type: String,
+//     default: 'blank'
+// },
+
 // Customer validation schema
 const salesSchema = Joi.object({
     customerName: Joi.string().default('unknown'),
     phoneNumber: Joi.string().default('blank'),
     address: Joi.string().default('blank'),
     referredBy: Joi.string().required().default('blank'),
+    discount: Joi.string().required().default('0'),
+    advance: Joi.string().required().default('0'),
+    leftSph: Joi.string().required().default('blank'),
+    leftCyl: Joi.string().required().default('blank'),
+    leftAxis: Joi.string().required().default('blank'),
+    leftNear: Joi.string().required().default('blank'),
+    rightSph: Joi.string().required().default('blank'),
+    rightCyl: Joi.string().required().default('blank'),
+    rightAxis: Joi.string().required().default('blank'),
+    rightNear: Joi.string().required().default('blank'),
     products: Joi.array().items(productSchema).required() // Array of products using the product schema
 });
 
