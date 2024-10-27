@@ -128,11 +128,12 @@ const salesSchema = new mongoose.Schema({
         required: true
     },
     delivered: {
-        type: Boolean,
+        type: String,
+        enum: ['Delivered', 'Not-Delivered'],
         required: true
     },
     paymentMethod: {
-        type: Boolean,
+        type: String,
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
         required: true
     },

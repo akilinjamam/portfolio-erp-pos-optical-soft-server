@@ -36,7 +36,7 @@ const salesSchema = Joi.object({
     rightAxis: Joi.string().required().default('blank'),
     rightNear: Joi.string().required().default('blank'),
     comment: Joi.string().required().default('blank'),
-    delivered: Joi.string().required(),
+    delivered: Joi.string().required().valid('Delivered', 'Not-Delivered'),
     recorderName: Joi.string().required(),
     deliveryDate: Joi.string().required(),
     paymentMethod: Joi.string().required().valid('Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'),
