@@ -13,53 +13,11 @@ const productSchema = Joi.object({
     frameType: Joi.string().required(),
     size: Joi.string().required(),
     shape: Joi.string().required(),
-    recorderName: Joi.string().required(),
-    recorderEmail: Joi.string().email().required(),
     barcode: Joi.string().required(),
     inStock: Joi.boolean().required()
 });
 
 
-// discount: {
-//     type: String,
-//     default: '0'
-// },
-// advance: {
-//     type: String,
-//     default: '0'
-// },
-// leftSph: {
-//     type: String,
-//     default: 'blank'
-// },
-// leftCyl: {
-//     type: String,
-//     default: 'blank'
-// },
-// leftAxis: {
-//     type: String,
-//     default: 'blank'
-// },
-// leftNear: {
-//     type: String,
-//     default: 'blank'
-// },
-// rightSph: {
-//     type: String,
-//     default: 'blank'
-// },
-// rightCyl: {
-//     type: String,
-//     default: 'blank'
-// },
-// rightAxis: {
-//     type: String,
-//     default: 'blank'
-// },
-// rightNear: {
-//     type: String,
-//     default: 'blank'
-// },
 
 // Customer validation schema
 const salesSchema = Joi.object({
@@ -77,7 +35,8 @@ const salesSchema = Joi.object({
     rightCyl: Joi.string().required().default('blank'),
     rightAxis: Joi.string().required().default('blank'),
     rightNear: Joi.string().required().default('blank'),
-    delivered: Joi.string().required().default(false),
+    delivered: Joi.string().required(),
+    recorderName: Joi.string().required(),
     deliveryDate: Joi.string().required(),
     paymentMethod: Joi.string().required().valid('Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'),
     products: Joi.array().items(productSchema).required() // Array of products using the product schema

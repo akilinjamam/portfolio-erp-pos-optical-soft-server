@@ -47,14 +47,6 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    recorderName: {
-        type: String,
-        required: true
-    },
-    recorderEmail: {
-        type: String,
-        required: true
-    },
     barcode: {
         type: String,
         required: true
@@ -123,18 +115,26 @@ const salesSchema = new mongoose.Schema({
         type: String,
         default: 'blank'
     },
+    comment: {
+        type: String,
+        default: 'blank'
+    },
+    recorderName: {
+        type: String,
+        required: true
+    },
     deliveryDate: {
         type: String,
         required: true
     },
     delivered: {
         type: Boolean,
-        default: false
+        required: true
     },
     paymentMethod: {
         type: Boolean,
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
-        default: false
+        required: true
     },
     products: [productSchema] // Array of product subdocuments
 },
