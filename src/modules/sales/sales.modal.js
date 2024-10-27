@@ -123,6 +123,19 @@ const salesSchema = new mongoose.Schema({
         type: String,
         default: 'blank'
     },
+    deliveryDate: {
+        type: String,
+        required: true
+    },
+    delivered: {
+        type: Boolean,
+        default: false
+    },
+    paymentMethod: {
+        type: Boolean,
+        enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
+        default: false
+    },
     products: [productSchema] // Array of product subdocuments
 },
     {

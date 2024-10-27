@@ -77,6 +77,9 @@ const salesSchema = Joi.object({
     rightCyl: Joi.string().required().default('blank'),
     rightAxis: Joi.string().required().default('blank'),
     rightNear: Joi.string().required().default('blank'),
+    delivered: Joi.string().required().default(false),
+    deliveryDate: Joi.string().required(),
+    paymentMethod: Joi.string().required().valid('Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'),
     products: Joi.array().items(productSchema).required() // Array of products using the product schema
 });
 
