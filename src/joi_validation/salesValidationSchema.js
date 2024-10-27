@@ -35,6 +35,7 @@ const salesSchema = Joi.object({
     rightCyl: Joi.string().required().default('blank'),
     rightAxis: Joi.string().required().default('blank'),
     rightNear: Joi.string().required().default('blank'),
+    comment: Joi.string().required().default('blank'),
     delivered: Joi.string().required(),
     recorderName: Joi.string().required(),
     deliveryDate: Joi.string().required(),
