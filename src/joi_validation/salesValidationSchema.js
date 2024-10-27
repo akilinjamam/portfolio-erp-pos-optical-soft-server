@@ -40,6 +40,7 @@ const salesSchema = Joi.object({
     recorderName: Joi.string().required(),
     deliveryDate: Joi.string().required(),
     paymentMethod: Joi.string().required().valid('Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'),
+    invoiceBarcode: Joi.string().required().default('blank'),
     products: Joi.array().items(productSchema).required() // Array of products using the product schema
 });
 

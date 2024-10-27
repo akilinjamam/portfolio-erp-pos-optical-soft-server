@@ -137,6 +137,11 @@ const salesSchema = new mongoose.Schema({
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
         required: true
     },
+    invoiceBarcode: {
+        type: String,
+        required: true,
+        default: 'blank'
+    },
     products: [productSchema] // Array of product subdocuments
 },
     {
