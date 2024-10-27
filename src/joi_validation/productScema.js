@@ -15,6 +15,9 @@ const productValidationSchema = Joi.object({
     img: Joi.string(),
     recorderName: Joi.string().required(),
     recorderEmail: Joi.string().required(),
+    power: Joi.string().required(),
+    supplierName: Joi.string().required(),
+    collectorName: Joi.string().required(),
     inStock: Joi.boolean().default(true)
 });
 

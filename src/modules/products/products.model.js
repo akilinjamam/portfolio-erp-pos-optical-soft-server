@@ -58,6 +58,18 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    power: {
+        type: String,
+        required: true
+    },
+    supplierName: {
+        type: String,
+        required: true
+    },
+    collectorName: {
+        type: String,
+        required: true
+    },
     inStock: {
         type: Boolean,
         default: true
