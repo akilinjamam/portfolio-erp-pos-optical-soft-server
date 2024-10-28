@@ -15,6 +15,7 @@ const createProductController = tryCatchAsync(
 const getProductController = tryCatchAsync(
     async (req, res) => {
         const { searchTerm, from, to, priceFrom, priceTo } = req.query;
+        console.log(priceFrom, priceTo)
         const result = await getProductService(searchTerm, from, to, priceFrom, priceTo);
         res.status(200).json({
             status: result.status,

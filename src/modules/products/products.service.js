@@ -32,6 +32,12 @@ const getProductService = async (queryValue, from, to, priceFrom, priceTo) => {
     if ((from && to) || (priceFrom && priceTo)) {
         const range = await Products.aggregate([
             {
+                $addFields: {
+                    convertedPurchasePrice: { $toDouble: "$purchasePrice" }
+                }
+            },
+            {
+
                 $match: {
                     $or: [
                         {
@@ -41,11 +47,12 @@ const getProductService = async (queryValue, from, to, priceFrom, priceTo) => {
                             }
                         },
                         {
-                            purchasePrice: {
-                                $gte: parseFloat(priceFrom),
-                                $lte: parseFloat(priceTo)
+                            convertedPurchasePrice: {
+                                $gte: priceFrom ? parseFloat(priceFrom) : undefined,
+                                $lte: priceTo ? parseFloat(priceTo) : undefined
                             }
-                        },
+                        }
+
                     ]
                 }
             }
