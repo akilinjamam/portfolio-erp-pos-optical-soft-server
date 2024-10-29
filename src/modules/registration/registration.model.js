@@ -67,6 +67,10 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    add_employee: {
+        type: Boolean,
+        default: false
+    },
 },
     {
         timestamps: true,
