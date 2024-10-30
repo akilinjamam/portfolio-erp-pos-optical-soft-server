@@ -1,3 +1,4 @@
+const filtering = require("../../filtering/filtering");
 const Products = require("./products.model")
 
 
@@ -13,15 +14,7 @@ const getProductService = async (queryValue, from, to, priceFrom, priceTo) => {
     const fields = ['productName', 'salesPrice', 'purchasePrice', 'category', 'quantity', 'date', 'power', 'barcode', 'material', 'frameType', 'size', 'shape', 'supplierName', 'collectorName', 'createdAt']
 
     if (queryValue) {
-        const search = await Products.aggregate([
-            {
-                $match: {
-                    $or: fields?.map((item) => {
-                        return { [item]: { $regex: queryValue, $options: 'i' } }
-                    }),
-                },
-            },
-        ])
+        const search = await filtering(Products, fields, queryValue)
         return {
             status: 200,
             total: search?.length,

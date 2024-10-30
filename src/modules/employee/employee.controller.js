@@ -15,9 +15,13 @@ const createEmployeeController = tryCatchAsync(
 
 const getEmployeeController = tryCatchAsync(
     async (req, res) => {
-        const result = await getEmployees();
+
+        const { searchTerm, from, to } = req.query;
+
+        const result = await getEmployees(searchTerm, from, to);
         res.status(200).json({
             status: result.status,
+            total: result.total,
             success: true,
             result: result.result
         })
