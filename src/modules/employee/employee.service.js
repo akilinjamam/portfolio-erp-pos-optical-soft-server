@@ -19,8 +19,25 @@ const getEmployees = async () => {
   }
 
 };
+const updateEmployees = async (id, data) => {
+  const result = await Employee.updateOne({ _id: id }, { $set: data }, { runValidator: true })
+  return {
+    status: 201,
+    result
+  }
+};
+
+const deleteEmployees = async (ids) => {
+  const result = await Employee.deleteMany({ _id: { $in: ids } });
+  return {
+    status: 200,
+    result
+  }
+}
 
 module.exports = {
   createEmployee,
-  getEmployees
+  getEmployees,
+  updateEmployees,
+  deleteEmployees
 };
