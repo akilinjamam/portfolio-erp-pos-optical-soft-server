@@ -1,3 +1,4 @@
+const employeeRouter = require("../modules/employee/employee.route");
 const loginRouter = require("../modules/login/login.router");
 const productRouter = require("../modules/products/products.route");
 const registrationRouter = require("../modules/registration/registration.router");
@@ -19,6 +20,10 @@ const allRoutes = [
     {
         path: 'sales',
         route: salesRouter,
+    },
+    {
+        path: 'employees',
+        route: employeeRouter,
     },
 ]
 
