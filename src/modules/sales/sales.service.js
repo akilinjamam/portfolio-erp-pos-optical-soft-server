@@ -89,7 +89,18 @@ const getSalesService = async (queryValue, from, to) => {
     }
 }
 
+
+const updateSalesService = async (id, data) => {
+    const result = await Sale.updateOne({ _id: id }, { $set: data }, { runValidators: true })
+
+    return {
+        status: 200,
+        result
+    }
+}
+
 module.exports = {
     createSalesService,
-    getSalesService
+    getSalesService,
+    updateSalesService
 }

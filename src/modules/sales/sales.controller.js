@@ -25,7 +25,21 @@ const getSalesController = tryCatchAsync(
     }
 )
 
+
+const updateSalesController = tryCatchAsync(
+    async (req, res) => {
+        const { id } = req.params
+        const result = await getSalesService(id, req?.body)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
 module.exports = {
     createSalesController,
-    getSalesController
+    getSalesController,
+    updateSalesController
 }
