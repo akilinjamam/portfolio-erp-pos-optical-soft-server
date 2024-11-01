@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createSalesService, getSalesService } = require("./sales.service")
+const { createSalesService, getSalesService, updateSalesService } = require("./sales.service")
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
@@ -29,7 +29,7 @@ const getSalesController = tryCatchAsync(
 const updateSalesController = tryCatchAsync(
     async (req, res) => {
         const { id } = req.params
-        const result = await getSalesService(id, req?.body)
+        const result = await updateSalesService(id, req?.body)
         res.status(201).json({
             status: result.status,
             success: true,

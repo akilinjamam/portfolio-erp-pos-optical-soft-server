@@ -91,6 +91,8 @@ const getSalesService = async (queryValue, from, to) => {
 
 
 const updateSalesService = async (id, data) => {
+    console.log(id)
+    console.log(data)
     const result = await Sale.updateOne({ _id: id }, { $set: data }, { runValidators: true })
 
     return {
