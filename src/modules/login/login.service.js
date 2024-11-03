@@ -22,6 +22,14 @@ const createLoginService = async (data) => {
         }
     }
 
+    if (!user?.accept_by_admin) {
+        return {
+            status: 401,
+            success: false,
+            result: 'please wait for admin access permission'
+        }
+    }
+
     if (password) {
         if (!bcrypt.compareSync(password, user.password)) {
             return {
