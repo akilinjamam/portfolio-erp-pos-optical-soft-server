@@ -67,6 +67,14 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    add_supplier: {
+        type: Boolean,
+        default: false
+    },
+    supplier_list: {
+        type: Boolean,
+        default: false
+    },
     add_employee: {
         type: Boolean,
         default: false
