@@ -15,7 +15,7 @@ const createSupplier = async (data) => {
 
 const getSupplier = async (queryValue) => {
 
-    const fields = ['SupplierName', 'address', 'mobile', 'createdAt']
+    const fields = ['supplierName', 'address', 'mobile', 'createdAt']
 
     if (queryValue) {
         const search = await filtering(Supplier, fields, queryValue)
