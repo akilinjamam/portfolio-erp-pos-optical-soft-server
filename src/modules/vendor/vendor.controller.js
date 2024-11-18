@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createVendorService } = require("./vendor.service")
+const { createVendorService, getLastVendorService } = require("./vendor.service")
 
 const createVendorController = tryCatchAsync(
     async (req, res) => {
@@ -13,6 +13,19 @@ const createVendorController = tryCatchAsync(
 )
 
 
+const getLastVendorController = tryCatchAsync(
+    async (req, res) => {
+        const result = await getLastVendorService(req.params.id)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
+
 module.exports = {
-    createVendorController
+    createVendorController,
+    getLastVendorController
 }

@@ -108,6 +108,17 @@ const createVendorService = async (data) => {
     }
 }
 
+
+const getLastVendorService = async (supplierName) => {
+    const lastVendor = await Vendor.findOne({ supplierName: supplierName }).sort({ createdAt: -1 }).populate('supplierName');
+
+    return {
+        status: 201,
+        result: lastVendor
+    }
+}
+
 module.exports = {
-    createVendorService
+    createVendorService,
+    getLastVendorService
 }
