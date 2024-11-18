@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 const Schema = require('mongoose');
 
@@ -23,7 +24,7 @@ const vendorSchema = mongoose.Schema({
     },
     billNo: {
         type: String,
-        default: '0'
+        required: true
     },
     billAmount: {
         type: String,
