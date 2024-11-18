@@ -140,7 +140,6 @@ const getPayrollService = async (employeeName, year, month) => {
 
 
     let conditionValue = '';
-    let conditionalEmployeeName = ''
 
     if (year && month) {
         conditionValue = { $regex: `^${year}-${month}` }
@@ -159,7 +158,7 @@ const getPayrollService = async (employeeName, year, month) => {
 
 
 
-    const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: -1 });
+    const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: 1 });
 
     console.log(result)
 
