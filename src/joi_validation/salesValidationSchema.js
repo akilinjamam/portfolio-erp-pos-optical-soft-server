@@ -28,6 +28,7 @@ const salesSchema = Joi.object({
     discount: Joi.string().required().default('0'),
     advance: Joi.string().required().default('0'),
     todayPaid: Joi.string().optional(),
+    paymentHistory: Joi.string().optional(),
     leftSph: Joi.string().required().default('blank'),
     leftCyl: Joi.string().required().default('blank'),
     leftAxis: Joi.string().required().default('blank'),
