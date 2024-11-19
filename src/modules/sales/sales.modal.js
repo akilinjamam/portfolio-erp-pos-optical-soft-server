@@ -79,6 +79,10 @@ const salesSchema = new mongoose.Schema({
         type: String,
         default: '0'
     },
+    todayPaid: {
+        type: String,
+        default: '0'
+    },
     advance: {
         type: String,
         default: '0'
