@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createAccountService } = require("./accounts.service")
+const { createAccountService, getAccountService, getSalesForAccountService, updateAccountService, deleteAccountService } = require("./accounts.service")
 
 const createAccountsController = tryCatchAsync(
     async (req, res) => {
@@ -11,7 +11,65 @@ const createAccountsController = tryCatchAsync(
         })
     }
 )
+const getAccountsController = tryCatchAsync(
+    async (req, res) => {
+
+        const { year, month } = req.query
+
+        const result = await getAccountService(year, month)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
+
+const getSalesForAccountController = tryCatchAsync(
+    async (req, res) => {
+
+        const { date } = req.query
+
+        const result = await getSalesForAccountService(date)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
+
+const updateAccountController = tryCatchAsync(
+    async (req, res) => {
+
+        const { id } = req.params;
+
+        const result = await updateAccountService(id, req.body)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
+const deleteAccountController = tryCatchAsync(
+    async (req, res) => {
+        const result = await deleteAccountService(req.body)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
 
 module.exports = {
-    createAccountsController
+    createAccountsController,
+    getAccountsController,
+    getSalesForAccountController,
+    updateAccountController,
+    deleteAccountController
 }
