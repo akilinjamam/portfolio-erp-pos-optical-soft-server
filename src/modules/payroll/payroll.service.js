@@ -138,15 +138,11 @@ const getSinglePayrollService = async (employeeName) => {
 
 const getPayrollService = async (employeeName, year, month) => {
 
-
+    console.log(year, month)
     let conditionValue = '';
 
     if (year && month) {
-        conditionValue = { $regex: `^${year}-${month}` }
-    }
-
-    if (year) {
-        conditionValue = { $regex: `^${year}` }
+        conditionValue = { $regex: `${month}` }
     }
 
     if (!employeeName) {
@@ -159,8 +155,6 @@ const getPayrollService = async (employeeName, year, month) => {
 
 
     const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: 1 }).populate('employeeName');
-
-    console.log(result)
 
     return {
         status: 201,
