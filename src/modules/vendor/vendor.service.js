@@ -126,18 +126,18 @@ const getVendorWithIdService = async (supplierName, year, month) => {
     }
 
 
-    if (!employeeName) {
+    if (!supplierName) {
         return {
             status: 201,
             result: []
         }
     }
 
+    console.log(supplierName, year, month)
+
+    const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
 
 
-    const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: -1 });
-
-    console.log(result)
 
     return {
         status: 201,
