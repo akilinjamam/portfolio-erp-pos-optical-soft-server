@@ -125,9 +125,6 @@ const getVendorWithIdService = async (supplierName, year, month) => {
         conditionValue = { $regex: `^${year}-${month}` }
     }
 
-    if (year) {
-        conditionValue = { $regex: `^${year}` }
-    }
 
     if (!employeeName) {
         return {
