@@ -154,7 +154,7 @@ const getPayrollService = async (employeeName, year, month) => {
 
 
 
-    const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: 1 }).populate('employeeName');
+    const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: -1 }).populate('employeeName');
 
     return {
         status: 201,
