@@ -1,3 +1,4 @@
+const passport = require('passport');
 const { runValidator } = require('../../joi_validation');
 const { payrollValidationSchema } = require('../../joi_validation/payrollSchema');
 const { createPayrollController, getPayrollController, getSinglePayrollController, deletePayrollController, updatePayrollController } = require('./payroll.controller');
@@ -10,7 +11,7 @@ payrollRouter.post('/create-payroll', runValidator(payrollValidationSchema), cre
 
 payrollRouter.get('/', getPayrollController)
 payrollRouter.post('/bulk-delete', deletePayrollController)
-payrollRouter.get('/:id', getSinglePayrollController)
+payrollRouter.get('/:id', passport.authenticate('jwt', { session: false }), getSinglePayrollController)
 payrollRouter.patch('/:id', updatePayrollController)
 
 module.exports = payrollRouter
