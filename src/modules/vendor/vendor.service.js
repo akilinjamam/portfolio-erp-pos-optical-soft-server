@@ -135,7 +135,7 @@ const getVendorWithIdService = async (supplierName, year, month) => {
 
 
 
-    const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: 1 });
+    const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: -1 });
 
     console.log(result)
 
