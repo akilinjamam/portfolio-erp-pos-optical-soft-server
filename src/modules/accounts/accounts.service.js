@@ -74,6 +74,13 @@ const createAccountService = async (data) => {
 
 const getSalesForAccountService = async (date) => {
 
+    if (!date) {
+        return {
+            status: 201,
+            result: []
+        }
+    }
+
     const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
