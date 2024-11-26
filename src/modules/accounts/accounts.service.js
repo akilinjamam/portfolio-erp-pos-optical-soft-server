@@ -98,6 +98,10 @@ const getSalesForAccountService = async (date) => {
         ],
     });
 
+    if (salesAccordingToDate?.length === 0) {
+        throw new Error('not found')
+    }
+
     const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
 
     const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
