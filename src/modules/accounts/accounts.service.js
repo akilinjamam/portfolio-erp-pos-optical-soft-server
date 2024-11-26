@@ -96,7 +96,7 @@ const getSalesForAccountService = async (date) => {
     const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
 
     const totalSaleValue = calculateTotal(allProducts).toString()
-    const beginingCashReserved = findBeginingCashReserved?.startingCashReserved
+    const beginingCashReserved = findBeginingCashReserved?.endingCashReserved
 
 
     const totalResult = Number(beginingCashReserved) + Number(totalSaleValue)
