@@ -133,12 +133,9 @@ const getAccountService = async (year, month) => {
     let conditionValue = '';
 
     if (year && month) {
-        conditionValue = { $regex: `^${year}-${month}` }
+        conditionValue = { $regex: `${year}-${month}` }
     }
 
-    if (year) {
-        conditionValue = { $regex: `^${year}` }
-    }
 
 
     const result = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
