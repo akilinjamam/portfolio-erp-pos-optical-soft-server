@@ -104,25 +104,20 @@ const getSalesForAccountService = async (date) => {
 
     const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
 
-    const allDiscounts = salesAccordingToDate.map(paid => Number(paid.discount))
-    const calculateAllDiscounts = calculateTotal(allDiscounts);
-
     const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
 
-    const totalSaleValue = calculateTotal(allProducts)
-    const totalSalesValueAfterDiscount = totalSaleValue - calculateAllDiscounts
-    const totalSalesValueAfterDiscounttoString = totalSalesValueAfterDiscount?.toString();
+    const totalSaleValue = calculateTotal(allProducts).toString()
     const beginingCashReserved = findBeginingCashReserved?.endingCashReserved
 
 
-    const totalResult = (Number(beginingCashReserved) + Number(totalSaleValue)) - calculateAllDiscounts
+    const totalResult = Number(beginingCashReserved) + Number(totalSaleValue)
 
     const totalResultInString = totalResult.toString();
 
 
     const total = {
         total: totalResultInString,
-        totalSales: totalSalesValueAfterDiscounttoString,
+        totalSales: totalSaleValue,
         beginingCashReserved: beginingCashReserved
     }
 
