@@ -141,7 +141,7 @@ const getAccountService = async (year, month) => {
     }
 
 
-    const result = await Account.find({ date: conditionValue }).sort({ createdAt: -1 });
+    const result = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
 
     console.log(result)
 
