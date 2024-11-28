@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createSalesService, getSalesService, updateSalesService } = require("./sales.service")
+const { createSalesService, getSalesService, updateSalesService, getDueCollectionSalesService } = require("./sales.service")
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
@@ -26,6 +26,20 @@ const getSalesController = tryCatchAsync(
 )
 
 
+const getDueCollectionSalesController = tryCatchAsync(
+    async (req, res) => {
+        const { paymentDate } = req.query;
+        const result = await getDueCollectionSalesService(paymentDate)
+        res.status(201).json({
+            status: result.status,
+            totalSales: result.totalSales,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
+
 const updateSalesController = tryCatchAsync(
     async (req, res) => {
         const { id } = req.params
@@ -41,5 +55,6 @@ const updateSalesController = tryCatchAsync(
 module.exports = {
     createSalesController,
     getSalesController,
-    updateSalesController
+    updateSalesController,
+    getDueCollectionSalesController
 }

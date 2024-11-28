@@ -168,3 +168,5 @@ const salesSchema = new mongoose.Schema({
 const Sale = mongoose.model('Sale', salesSchema);
 
 module.exports = Sale;
+
+

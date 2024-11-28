@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
+const calculateTotal = require("../../calculation/calculateSum");
 
 const createSalesService = async (data) => {
 
@@ -111,8 +112,46 @@ const updateSalesService = async (id, data) => {
     }
 }
 
+
+const getDueCollectionSalesService = async (paymentDate) => {
+
+    if (!paymentDate) {
+        return {
+            status: 200,
+            result: []
+        }
+    }
+
+    const pipline = [
+        {
+            $match: {
+                paymentDate: paymentDate,
+                paymentMethod: 'Cash',
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] }
+            }
+        }
+    ]
+
+    const result = await Sale.aggregate(pipline);
+
+    const allProducts = result?.flatMap(item => calculateTotal(item?.products?.map(saleValue => (saleValue?.actualSalesPrice * saleValue?.quantity))))
+
+    const totalSales = allProducts?.[0]?.toString();
+
+    return {
+        status: 200,
+        result: {
+            totalSales,
+            result
+        }
+    }
+
+
+}
+
 module.exports = {
     createSalesService,
     getSalesService,
-    updateSalesService
+    updateSalesService,
+    getDueCollectionSalesService
 }
