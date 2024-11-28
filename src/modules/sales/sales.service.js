@@ -135,6 +135,8 @@ const getDueCollectionSalesService = async (paymentDate) => {
     const result = await Sale.aggregate(pipline);
 
     const allProducts = result?.flatMap(item => calculateTotal(item?.products?.map(saleValue => (saleValue?.actualSalesPrice * saleValue?.quantity))))
+    const todayTotalPaid = result?.map(paid => Number(paid?.todayPaid));
+    const totalPaidDueCollection = todayTotalPaid?.[0]?.toString();
 
     const totalSales = allProducts?.[0]?.toString();
 
@@ -142,6 +144,7 @@ const getDueCollectionSalesService = async (paymentDate) => {
         status: 200,
         result: {
             totalSales,
+            totalPaidDueCollection,
             result
         }
     }
