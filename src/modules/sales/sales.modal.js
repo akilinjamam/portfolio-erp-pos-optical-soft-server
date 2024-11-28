@@ -83,6 +83,10 @@ const salesSchema = new mongoose.Schema({
         type: String,
         default: '0'
     },
+    paidTime: {
+        type: String,
+        default: '1'
+    },
     paymentHistory: {
         type: String,
         default: '0'

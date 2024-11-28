@@ -91,13 +91,24 @@ const getSalesService = async (queryValue, from, to) => {
 
 
 const updateSalesService = async (id, data) => {
-    console.log(id)
-    console.log(data)
-    const result = await Sale.updateOne({ _id: id }, { $set: data }, { runValidators: true })
+
+    const findSale = await Sale.findOne({ _id: id }).select('paymentHistory');
+
+
+    const splitHistory = findSale?.paymentHistory.split('+')
+
+    const paidTime = splitHistory?.slice(1)?.length?.toString();
+
+    const newData = {
+        ...data,
+        paidTime: paidTime
+    }
+
+    const result = await Sale.updateOne({ _id: id }, { $set: newData }, { runValidators: true })
 
     return {
         status: 200,
-        result
+        result: result
     }
 }
 

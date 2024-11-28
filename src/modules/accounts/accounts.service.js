@@ -33,6 +33,7 @@ const createAccountService = async (data) => {
     const totalSaleValue = calculateTotal(allProducts).toString()
     const totalExpenseValue = calculateTotal(allExprenses).toString()
 
+
     const lastAccount = await Account.findOne({}).sort({ createdAt: -1 });
 
     const conditionalStartingCash = startingCashReserved === '0' ? lastAccount?.endingCashReserved : startingCashReserved
@@ -47,7 +48,6 @@ const createAccountService = async (data) => {
 
     const calculateProfitAllocation = totalSalesWithBeginingCashAndDueCollection - Number(totalExpenseValue) - Number(endingCashReserved)
     const calculateProfitAllocationInString = calculateProfitAllocation.toString();
-
 
     const newData = {
         totalExpense: totalExpenseValue,
