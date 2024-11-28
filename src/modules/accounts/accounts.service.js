@@ -114,11 +114,12 @@ const getSalesForAccountService = async (date) => {
 
     const totalResultInString = totalResult.toString();
 
+    const beginingCashReservedToString = beginingCashReserved?.toString();
 
     const total = {
         total: totalResultInString,
         totalSales: totalSaleValue,
-        beginingCashReserved: beginingCashReserved
+        beginingCashReserved: beginingCashReservedToString
     }
 
     return {
