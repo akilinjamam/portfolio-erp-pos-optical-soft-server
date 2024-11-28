@@ -92,10 +92,9 @@ const getSalesService = async (queryValue, from, to) => {
 
 const updateSalesService = async (id, data) => {
 
-    const findSale = await Sale.findOne({ _id: id }).select('paymentHistory');
 
 
-    const splitHistory = findSale?.paymentHistory.split('+')
+    const splitHistory = data?.paymentHistory.split('+')
 
     const paidTime = splitHistory?.slice(1)?.length?.toString();
 
