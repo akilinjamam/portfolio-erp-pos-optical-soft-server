@@ -136,7 +136,7 @@ const getDueCollectionSalesService = async (paymentDate) => {
 
     const allProducts = result?.flatMap(item => calculateTotal(item?.products?.map(saleValue => (saleValue?.actualSalesPrice * saleValue?.quantity))))
     const todayTotalPaid = result?.map(paid => Number(paid?.todayPaid));
-    const totalPaidDueCollection = todayTotalPaid?.[0]?.toString();
+    const totalPaidDueCollection = calculateTotal(todayTotalPaid)?.toString();
 
     const totalSales = allProducts?.[0]?.toString();
 
