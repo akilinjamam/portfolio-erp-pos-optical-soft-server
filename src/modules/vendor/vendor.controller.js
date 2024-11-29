@@ -3,6 +3,7 @@ const { createVendorService, getLastVendorService, getVendorWithIdService, updat
 
 const createVendorController = tryCatchAsync(
     async (req, res) => {
+        console.log('hello')
         const result = await createVendorService(req.body)
         res.status(201).json({
             status: result.status,
