@@ -99,12 +99,22 @@ const updateSalesService = async (id, data) => {
 
     const paidTime = splitHistory?.slice(1)?.length?.toString();
 
+    let conditionalData;
+
     const newData = {
         ...data,
         paidTime: paidTime
     }
 
-    const result = await Sale.updateOne({ _id: id }, { $set: newData }, { runValidators: true })
+    if (!data?.paymentHistory) {
+        conditionalData = data
+    } else {
+        conditionalData = newData
+    }
+
+
+
+    const result = await Sale.updateOne({ _id: id }, { $set: conditionalData }, { runValidators: true })
 
     return {
         status: 200,
