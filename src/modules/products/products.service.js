@@ -59,7 +59,7 @@ const getProductService = async (queryValue, from, to, priceFrom, priceTo) => {
     }
 
 
-    const result = await Products.find({})
+    const result = await Products.find({ category: { $nin: ['Glass'] } })
     return {
         status: 200,
         total: result?.length,
