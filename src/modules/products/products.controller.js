@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createProductService, getProductService, updateProductService, deleteProductService, getSingleProductService } = require("./products.service")
+const { createProductService, getProductService, updateProductService, deleteProductService, getSingleProductService, getProductGlassService } = require("./products.service")
 
 const createProductController = tryCatchAsync(
     async (req, res) => {
@@ -17,6 +17,19 @@ const getProductController = tryCatchAsync(
         const { searchTerm, from, to, priceFrom, priceTo } = req.query;
         console.log(priceFrom, priceTo)
         const result = await getProductService(searchTerm, from, to, priceFrom, priceTo);
+        res.status(200).json({
+            status: result.status,
+            total: result.total,
+            success: true,
+            result: result.result
+        })
+    }
+)
+const getProductGlassController = tryCatchAsync(
+    async (req, res) => {
+        const { searchTerm, from, to, priceFrom, priceTo } = req.query;
+        console.log(priceFrom, priceTo)
+        const result = await getProductGlassService(searchTerm, from, to, priceFrom, priceTo);
         res.status(200).json({
             status: result.status,
             total: result.total,
@@ -65,6 +78,7 @@ const deleteProductController = tryCatchAsync(
 module.exports = {
     createProductController,
     getProductController,
+    getProductGlassController,
     getSingleProductController,
     updateProductController,
     deleteProductController
