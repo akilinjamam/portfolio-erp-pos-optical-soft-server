@@ -62,6 +62,18 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    sph: {
+        type: String,
+        required: true
+    },
+    cyl: {
+        type: String,
+        required: true
+    },
+    axis: {
+        type: String,
+        required: true
+    },
     supplierName: {
         type: String,
         required: true

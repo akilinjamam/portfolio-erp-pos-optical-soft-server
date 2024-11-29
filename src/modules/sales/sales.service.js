@@ -93,8 +93,6 @@ const getSalesService = async (queryValue, from, to) => {
 
 const updateSalesService = async (id, data) => {
 
-
-
     const splitHistory = data?.paymentHistory?.split('+')
 
     const paidTime = splitHistory?.slice(1)?.length?.toString();

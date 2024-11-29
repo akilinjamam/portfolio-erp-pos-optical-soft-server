@@ -16,6 +16,9 @@ const productValidationSchema = Joi.object({
     recorderName: Joi.string().required(),
     recorderEmail: Joi.string().required(),
     power: Joi.string().required(),
+    sph: Joi.string().required(),
+    cyl: Joi.string().required(),
+    axis: Joi.string().required(),
     supplierName: Joi.string().required(),
     collectorName: Joi.string().required(),
     inStock: Joi.boolean().default(true)
