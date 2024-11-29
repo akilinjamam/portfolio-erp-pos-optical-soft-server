@@ -1,156 +1,11 @@
 const calculateTotal = require("../../calculation/calculateSum");
+const Account = require("../accounts/accounts.model");
 const Payroll = require("../payroll/payroll.model");
 const Sale = require("../sales/sales.modal");
 const Vendor = require("../vendor/vendor.model");
-const Account = require("./accounts.model");
+const FinalAccount = require("./finalAccounts.model");
 
-const createAccountService = async (data) => {
-
-    const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount } = data
-
-    const targetDate = new Date(date);
-
-    const salesAccordingToDate = await Sale.find({
-        $and: [
-            {
-                $expr: {
-                    $and: [
-                        { $eq: [{ $year: '$createdAt' }, targetDate.getUTCFullYear()] },
-                        { $eq: [{ $month: '$createdAt' }, targetDate.getUTCMonth() + 1] },
-                        { $eq: [{ $dayOfMonth: '$createdAt' }, targetDate.getUTCDate()] },
-                    ],
-                },
-            },
-            { paymentMethod: "Cash" }
-        ],
-    });
-
-
-    // const allProducts = salesAccordingToDate.flatMap(sale => sale.products.map(item => item.actualSalesPrice * item.quantity));
-
-    const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
-
-    const allExprenses = expenses.map(expense => Number(expense.expenseAmount));
-
-    const totalSaleValue = calculateTotal(allProducts).toString()
-    const totalExpenseValue = calculateTotal(allExprenses).toString()
-
-
-    const lastAccount = await Account.findOne({}).sort({ createdAt: -1 });
-
-    const conditionalStartingCash = startingCashReserved === '0' ? lastAccount?.endingCashReserved : startingCashReserved
-
-    const totalSalesWithBeginingCashAndDueCollection = Number(conditionalStartingCash) + Number(totalSaleValue) + Number(dueSalesAmount);
-
-    const totalDeficit = Number(totalExpenseValue) - totalSalesWithBeginingCashAndDueCollection
-
-    const conditionalDeficit = Number(totalExpenseValue) > totalSalesWithBeginingCashAndDueCollection ? totalDeficit.toString() : '0'
-
-    const totalSalesAmountInString = totalSalesWithBeginingCashAndDueCollection.toString();
-
-    const calculateProfitAllocation = totalSalesWithBeginingCashAndDueCollection - Number(totalExpenseValue) - Number(endingCashReserved)
-    const calculateProfitAllocationInString = calculateProfitAllocation.toString();
-
-    const newData = {
-        totalExpense: totalExpenseValue,
-        profitAllocation: calculateProfitAllocationInString,
-        date,
-        startingCashReserved: conditionalStartingCash,
-        endingCashReserved: endingCashReserved,
-        salesAmount: totalSaleValue,
-        totalSalesAmount: totalSalesAmountInString,
-        deficit: conditionalDeficit,
-        dueSalesAmount,
-        expenses
-    }
-
-
-    await Account.create(newData)
-
-
-    return {
-        status: 201,
-        result: allProducts
-    }
-}
-
-const getSalesForAccountService = async (date) => {
-
-    if (!date) {
-        return {
-            status: 201,
-            result: []
-        }
-    }
-
-    const targetDate = new Date(date);
-
-    const salesAccordingToDate = await Sale.find({
-        $and: [
-            {
-                $expr: {
-                    $and: [
-                        { $eq: [{ $year: '$createdAt' }, targetDate.getUTCFullYear()] },
-                        { $eq: [{ $month: '$createdAt' }, targetDate.getUTCMonth() + 1] },
-                        { $eq: [{ $dayOfMonth: '$createdAt' }, targetDate.getUTCDate()] },
-                    ],
-                },
-            },
-            { paymentMethod: "Cash" }
-        ],
-    });
-
-    if (salesAccordingToDate?.length === 0) {
-        throw new Error('not found')
-    }
-
-    const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
-
-    const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
-
-    const totalSaleValue = calculateTotal(allProducts).toString()
-    const beginingCashReserved = findBeginingCashReserved?.endingCashReserved ? findBeginingCashReserved?.endingCashReserved : 0
-
-
-    const totalResult = Number(beginingCashReserved) + Number(totalSaleValue)
-
-    const totalResultInString = totalResult.toString();
-
-    const beginingCashReservedToString = beginingCashReserved?.toString();
-
-    const total = {
-        total: totalResultInString,
-        totalSales: totalSaleValue,
-        beginingCashReserved: beginingCashReservedToString
-    }
-
-    return {
-        status: 201,
-        result: total
-    }
-}
-
-const getAccountService = async (year, month) => {
-
-
-    let conditionValue = '';
-
-    if (year && month) {
-        conditionValue = { $regex: `${year}-${month}` }
-    }
-
-
-
-    const result = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
-
-    console.log(result)
-
-    return {
-        status: 201,
-        result
-    }
-}
-const getAccountProfitExpensesService = async () => {
+const finalAccountCreateService = async (data) => {
 
     const date = new Date();
 
@@ -359,38 +214,55 @@ const getAccountProfitExpensesService = async () => {
 
     const netProfit = totalProfitAmount - totalExpenses;
 
+    const netProfitString = netProfit?.toString();
 
+    const calculateFixedExpenses = calculateTotal(data?.expenses?.map(item => Number(item?.expenseAmount)))
 
-    const total = {
-        cashProfit: netCashProfit,
-        bankProfit: netBankProfit,
-        bkashProfit: netBkashProfit,
-        nogodProfit: netNogodProfit,
-        rocketProfit: netRocketProfit,
-        totalProfit: totalProfitAmount,
-        salaryExpenses: totalPayrollExpenses,
-        vendorExpenses: calculateAllPaidAmountVendors,
-        totalExpenses,
-        netProfit: netProfit
+    const totalProfit = (netProfit + Number(data?.extraProfitAmount))?.toString();
+
+    const finalProfit = (netProfit + Number(data?.extraProfitAmount)) - calculateFixedExpenses;
+
+    const finalProfitString = finalProfit?.toString();
+
+    const calculateFixedExpensesString = calculateFixedExpenses?.toString();
+
+    const newData = {
+        ...data,
+        totalProfit: netProfitString,
+        totalExpense: calculateFixedExpensesString,
+        profitAllocation: finalProfitString
     }
 
+
+    const result = await FinalAccount.create(newData);
 
     return {
         status: 201,
-        result: total
+        result
     }
 }
 
-const updateAccountService = async (id, body) => {
-    const result = await Account.updateOne({ _id: id }, { $set: body }, { runValidator: true })
+const getFinalAccountService = async () => {
+    const result = await FinalAccount.find({});
+
+    return {
+        status: 201,
+        result
+    }
+}
+
+
+
+const updateFinalAccountService = async (id, body) => {
+    const result = await FinalAccount.updateOne({ _id: id }, { $set: body }, { runValidator: true })
     return {
         status: 200,
         result
     }
 }
 
-const deleteAccountService = async (ids) => {
-    const result = await Account.deleteMany({ _id: { $in: ids } });
+const deleteFinalAccountService = async (ids) => {
+    const result = await FinalAccount.deleteMany({ _id: { $in: ids } });
     return {
         status: 200,
         result
@@ -399,10 +271,8 @@ const deleteAccountService = async (ids) => {
 
 
 module.exports = {
-    createAccountService,
-    getAccountService,
-    getAccountProfitExpensesService,
-    getSalesForAccountService,
-    updateAccountService,
-    deleteAccountService
+    finalAccountCreateService,
+    getFinalAccountService,
+    updateFinalAccountService,
+    deleteFinalAccountService
 }
