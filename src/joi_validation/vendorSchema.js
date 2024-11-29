@@ -8,6 +8,7 @@ module.exports.vendorValidationSchema = Joi.object({
     billNo: Joi.string().required(),
     totalPaid: Joi.string().optional(),
     billAmount: Joi.string().optional(),
+    singleBillAmount: Joi.string().optional(),
     prevDue: Joi.string().optional(),
     due: Joi.string().optional(),
     paymentMethod: Joi.string().optional(),

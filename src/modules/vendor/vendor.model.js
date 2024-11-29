@@ -30,6 +30,10 @@ const vendorSchema = mongoose.Schema({
         type: String,
         default: 'blank'
     },
+    singleBillAmount: {
+        type: String,
+        default: 'blank'
+    },
     due: {
         type: String,
         default: '0'

@@ -78,6 +78,8 @@ const createVendorService = async (data) => {
 
     const conditionalBillAmount = ((lastVendor.billNo !== billNo) && (lastVendor.due !== '0')) ? calculatedBillAmount : newBillAmount
 
+    const conditionalSingleBillAmount = lastVendor.billNo !== billNo ? billAmount : ''
+
     const dueAmountAccordingToBillNo = (lastVendor.billNo === billNo) ? Number(lastVendor.billAmount) : (Number(newBillAmount) + Number(lastVendor.billAmount));
 
     const calculateDueAmount = (dueAmountAccordingToBillNo - (Number(lastVendor.totalPaid) + Number(paid)))
@@ -96,6 +98,7 @@ const createVendorService = async (data) => {
         prevDue: previousDue,
         billNo,
         billAmount: conditionalBillAmount,
+        singleBillAmount: conditionalSingleBillAmount,
         ...remainingData
     }
 
