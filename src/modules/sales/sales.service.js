@@ -95,7 +95,7 @@ const updateSalesService = async (id, data) => {
 
 
 
-    const splitHistory = data?.paymentHistory.split('+')
+    const splitHistory = data?.paymentHistory?.split('+')
 
     const paidTime = splitHistory?.slice(1)?.length?.toString();
 
