@@ -237,8 +237,17 @@ const finalAccountCreateService = async (data) => {
     }
 }
 
-const getFinalAccountService = async () => {
-    const result = await FinalAccount.find({});
+const getFinalAccountService = async (year, month) => {
+
+    if (!year && !month) {
+        return {
+            status: 201,
+            result: []
+        }
+    }
+    conditionValue = { $regex: `^${year}-${month}` }
+
+    const result = await FinalAccount.find({ date: { $regex: `^${year}-${month}` } });
 
     return {
         status: 201,

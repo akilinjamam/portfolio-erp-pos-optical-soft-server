@@ -13,7 +13,8 @@ const finalAccountCreateController = tryCatchAsync(
 )
 const getFinalAccountController = tryCatchAsync(
     async (req, res) => {
-        const result = await getFinalAccountService(req.body)
+        const { year, month } = req.query
+        const result = await getFinalAccountService(year, month)
         res.status(201).json({
             status: result.status,
             success: true,
