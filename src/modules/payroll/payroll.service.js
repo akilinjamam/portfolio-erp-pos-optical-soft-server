@@ -142,7 +142,7 @@ const getPayrollService = async (employeeName, year, month) => {
     let conditionValue = '';
 
     if (year && month) {
-        conditionValue = { $regex: `${month}` }
+        conditionValue = { $regex: `^${year}-${month}` }
     }
 
     if (!employeeName) {

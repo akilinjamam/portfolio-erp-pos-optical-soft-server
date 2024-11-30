@@ -26,9 +26,6 @@ const finalAccountCreateService = async (data) => {
 
     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
 
-    console.log(getAllProfitAllocation);
-
-
     const pipelineForCash = [
 
         {
@@ -51,7 +48,7 @@ const finalAccountCreateService = async (data) => {
 
     const netCashProfit = getAllProfitAllocation - getCashSaleDiscount;
 
-    console.log('cash-profit after discount', netCashProfit);
+
 
 
     const pipelineForBank = [
@@ -79,7 +76,7 @@ const finalAccountCreateService = async (data) => {
 
     const netBankProfit = calculateTotalBackSale - calculateTotalDiscountedBank
 
-    console.log('net-bank-profit', netBankProfit);
+
 
 
     const pipelineForBkash = [
@@ -107,7 +104,7 @@ const finalAccountCreateService = async (data) => {
 
     const netBkashProfit = calculateTotalBkashSale - calculateTotalDiscountedBkash
 
-    console.log('net-bkash-profit', netBkashProfit);
+
 
 
 
@@ -136,7 +133,7 @@ const finalAccountCreateService = async (data) => {
 
     const netNogodProfit = calculateTotalNogodSale - calculateTotalDiscountedNogod
 
-    console.log('net-nogod-profit', netNogodProfit);
+
 
 
 
@@ -166,7 +163,7 @@ const finalAccountCreateService = async (data) => {
 
     const netRocketProfit = calculateTotalRocketSale - calculateTotalDiscountedRocket
 
-    console.log('net-rocket-profit', netRocketProfit);
+
 
     const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit
 
@@ -190,7 +187,7 @@ const finalAccountCreateService = async (data) => {
 
     const totalPayrollExpenses = CalculateTotalPaidSalary + CalculateTotalIncentiveSalary + CalculateTotalBonusSalary
 
-    console.log('salary-expense', totalPayrollExpenses);
+
 
 
     const pipelineForVendor = [
@@ -207,7 +204,7 @@ const finalAccountCreateService = async (data) => {
 
     const calculateAllPaidAmountVendors = calculateTotal(allVendors?.map(vendor => Number(vendor?.paid)));
 
-    console.log('vendor-expenses', calculateAllPaidAmountVendors);
+
 
 
     const totalExpenses = calculateAllPaidAmountVendors + totalPayrollExpenses;
@@ -217,8 +214,6 @@ const finalAccountCreateService = async (data) => {
     const netProfitString = netProfit?.toString();
 
     const calculateFixedExpenses = calculateTotal(data?.expenses?.map(item => Number(item?.expenseAmount)))
-
-    const totalProfit = (netProfit + Number(data?.extraProfitAmount))?.toString();
 
     const finalProfit = (netProfit + Number(data?.extraProfitAmount)) - calculateFixedExpenses;
 
