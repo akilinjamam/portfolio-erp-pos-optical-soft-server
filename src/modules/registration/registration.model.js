@@ -35,6 +35,14 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    glass_stock: {
+        type: Boolean,
+        default: false
+    },
+    glass_list: {
+        type: Boolean,
+        default: false
+    },
     sales_invoice: {
         type: Boolean,
         default: false
@@ -48,6 +56,10 @@ const registrationSchema = mongoose.Schema({
         default: false
     },
     payroll: {
+        type: Boolean,
+        default: false
+    },
+    payroll_list: {
         type: Boolean,
         default: false
     },
@@ -76,6 +88,34 @@ const registrationSchema = mongoose.Schema({
         default: false
     },
     add_employee: {
+        type: Boolean,
+        default: false
+    },
+    add_vendor: {
+        type: Boolean,
+        default: false
+    },
+    vendor_list: {
+        type: Boolean,
+        default: false
+    },
+    add_expenses: {
+        type: Boolean,
+        default: false
+    },
+    expenses_list: {
+        type: Boolean,
+        default: false
+    },
+    due_collection_list: {
+        type: Boolean,
+        default: false
+    },
+    add_fixed_expenses: {
+        type: Boolean,
+        default: false
+    },
+    expenses_profit_list: {
         type: Boolean,
         default: false
     },
