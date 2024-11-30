@@ -81,12 +81,9 @@ const getSalesService = async (queryValue, from, to) => {
         }
     }
 
-
-    const result = await Sale.find({})
     return {
         status: 200,
-        total: result?.length,
-        result
+        result: []
     }
 }
 
