@@ -33,19 +33,35 @@ const productSchema = mongoose.Schema({
     },
     material: {
         type: String,
-        required: true
+        default: "blank"
     },
     frameType: {
         type: String,
-        required: true
+        default: "blank"
     },
     size: {
         type: String,
-        required: true
+        default: "blank"
     },
     shape: {
         type: String,
-        required: true
+        default: "blank"
+    },
+    power: {
+        type: String,
+        default: "blank"
+    },
+    sph: {
+        type: String,
+        default: "blank"
+    },
+    cyl: {
+        type: String,
+        default: "blank"
+    },
+    axis: {
+        type: String,
+        default: "blank"
     },
     barcode: {
         type: String,

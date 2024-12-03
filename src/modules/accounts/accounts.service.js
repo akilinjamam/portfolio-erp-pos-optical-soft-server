@@ -348,8 +348,6 @@ const getAccountProfitExpensesService = async () => {
 
     const netProfit = totalProfitAmount - totalExpenses;
 
-
-
     const total = {
         cashProfit: netCashProfit,
         bankProfit: netBankProfit,
@@ -362,7 +360,6 @@ const getAccountProfitExpensesService = async () => {
         totalExpenses,
         netProfit: netProfit
     }
-
 
     return {
         status: 201,

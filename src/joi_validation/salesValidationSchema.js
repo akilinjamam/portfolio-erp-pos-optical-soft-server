@@ -9,15 +9,17 @@ const productSchema = Joi.object({
     category: Joi.string().required(),
     quantity: Joi.number().required(),
     remainingQuantity: Joi.number().required(),
-    material: Joi.string().required(),
-    frameType: Joi.string().required(),
-    size: Joi.string().required(),
-    shape: Joi.string().required(),
+    material: Joi.string().optional(),
+    frameType: Joi.string().optional(),
+    size: Joi.string().optional(),
+    shape: Joi.string().optional(),
+    power: Joi.string().optional(),
+    sph: Joi.string().optional(),
+    cyl: Joi.string().optional(),
+    axis: Joi.string().optional(),
     barcode: Joi.string().required(),
     inStock: Joi.boolean().required()
 });
-
-
 
 // Customer validation schema
 const salesSchema = Joi.object({
