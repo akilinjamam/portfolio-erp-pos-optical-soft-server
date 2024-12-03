@@ -26,27 +26,10 @@ const finalAccountCreateService = async (data) => {
 
     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
 
-    const pipelineForCash = [
-
-        {
-            $match: {
-                paymentDate: conditionValue
-            }
-        },
-        {
-            $match: {
-                paymentMethod: 'Cash'
-            }
-        },
-
-    ];
-
-    const allCashSaleTransectionAfter = await Sale.aggregate(pipelineForCash);
-
-    const getCashSaleDiscount = calculateTotal(allCashSaleTransectionAfter?.map(saleDiscount => Number(saleDiscount?.discount)));
 
 
-    const netCashProfit = getAllProfitAllocation - getCashSaleDiscount;
+
+    const netCashProfit = getAllProfitAllocation
 
 
 
@@ -72,9 +55,9 @@ const finalAccountCreateService = async (data) => {
 
     const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedBank = calculateTotal(allBankSaleTransection?.map(item => Number(item?.discount)));
 
-    const netBankProfit = calculateTotalBackSale - calculateTotalDiscountedBank
+
+    const netBankProfit = calculateTotalBackSale
 
 
 
@@ -100,13 +83,7 @@ const finalAccountCreateService = async (data) => {
 
     const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedBkash = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.discount)));
-
-    const netBkashProfit = calculateTotalBkashSale - calculateTotalDiscountedBkash
-
-
-
-
+    const netBkashProfit = calculateTotalBkashSale
 
     const pipelineForNogod = [
 
@@ -129,13 +106,8 @@ const finalAccountCreateService = async (data) => {
 
     const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedNogod = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.discount)));
 
-    const netNogodProfit = calculateTotalNogodSale - calculateTotalDiscountedNogod
-
-
-
-
+    const netNogodProfit = calculateTotalNogodSale
 
 
     const pipelineForRocket = [
@@ -159,9 +131,8 @@ const finalAccountCreateService = async (data) => {
 
     const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedRocket = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.discount)));
 
-    const netRocketProfit = calculateTotalRocketSale - calculateTotalDiscountedRocket
+    const netRocketProfit = calculateTotalRocketSale
 
 
 
@@ -186,9 +157,6 @@ const finalAccountCreateService = async (data) => {
 
 
     const totalPayrollExpenses = CalculateTotalPaidSalary + CalculateTotalIncentiveSalary + CalculateTotalBonusSalary
-
-
-
 
     const pipelineForVendor = [
 

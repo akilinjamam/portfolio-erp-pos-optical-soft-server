@@ -28,7 +28,7 @@ const createAccountService = async (data) => {
 
     // const allProducts = salesAccordingToDate.flatMap(sale => sale.products.map(item => item.actualSalesPrice * item.quantity));
 
-    const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
+    const allProducts = salesAccordingToDate.map(paid => Number(paid.todayPaid))
 
     const allExprenses = expenses.map(expense => Number(expense.expenseAmount));
 
@@ -104,7 +104,7 @@ const getSalesForAccountService = async (date) => {
         throw new Error('not found')
     }
 
-    const allProducts = salesAccordingToDate.map(paid => Number(paid.advance))
+    const allProducts = salesAccordingToDate.map(paid => Number(paid.todayPaid))
 
     const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
 
@@ -174,29 +174,12 @@ const getAccountProfitExpensesService = async () => {
     console.log(getAllProfitAllocation);
 
 
-    const pipelineForCash = [
-
-        {
-            $match: {
-                paymentDate: conditionValue
-            }
-        },
-        {
-            $match: {
-                paymentMethod: 'Cash'
-            }
-        },
-
-    ];
-
-    const allCashSaleTransectionAfter = await Sale.aggregate(pipelineForCash);
-
-    const getCashSaleDiscount = calculateTotal(allCashSaleTransectionAfter?.map(saleDiscount => Number(saleDiscount?.discount)));
 
 
-    const netCashProfit = getAllProfitAllocation - getCashSaleDiscount;
 
-    console.log('cash-profit after discount', netCashProfit);
+    const netCashProfit = getAllProfitAllocation
+
+    console.log('cash-profit', netCashProfit);
 
 
     const pipelineForBank = [
@@ -220,9 +203,9 @@ const getAccountProfitExpensesService = async () => {
 
     const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedBank = calculateTotal(allBankSaleTransection?.map(item => Number(item?.discount)));
 
-    const netBankProfit = calculateTotalBackSale - calculateTotalDiscountedBank
+
+    const netBankProfit = calculateTotalBackSale
 
     console.log('net-bank-profit', netBankProfit);
 
@@ -248,9 +231,9 @@ const getAccountProfitExpensesService = async () => {
 
     const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedBkash = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.discount)));
 
-    const netBkashProfit = calculateTotalBkashSale - calculateTotalDiscountedBkash
+
+    const netBkashProfit = calculateTotalBkashSale
 
     console.log('net-bkash-profit', netBkashProfit);
 
@@ -277,9 +260,9 @@ const getAccountProfitExpensesService = async () => {
 
     const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedNogod = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.discount)));
 
-    const netNogodProfit = calculateTotalNogodSale - calculateTotalDiscountedNogod
+
+    const netNogodProfit = calculateTotalNogodSale
 
     console.log('net-nogod-profit', netNogodProfit);
 
@@ -307,9 +290,9 @@ const getAccountProfitExpensesService = async () => {
 
     const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.advance)));
 
-    const calculateTotalDiscountedRocket = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.discount)));
 
-    const netRocketProfit = calculateTotalRocketSale - calculateTotalDiscountedRocket
+
+    const netRocketProfit = calculateTotalRocketSale
 
     console.log('net-rocket-profit', netRocketProfit);
 
