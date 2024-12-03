@@ -29,7 +29,7 @@ const productSchema = mongoose.Schema({
     },
     remainingQuantity: {
         type: Number,
-        required: true
+        default: 0
     },
     material: {
         type: String,
@@ -65,11 +65,11 @@ const productSchema = mongoose.Schema({
     },
     barcode: {
         type: String,
-        required: true
+        default: 'blank'
     },
     inStock: {
         type: Boolean,
-        required: true
+        default: false
     }
 });
 

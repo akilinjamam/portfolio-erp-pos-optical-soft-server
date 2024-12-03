@@ -8,7 +8,7 @@ const productSchema = Joi.object({
     purchasePrice: Joi.string().required(), // If you prefer it as a number, change this to Joi.number()
     category: Joi.string().required(),
     quantity: Joi.number().required(),
-    remainingQuantity: Joi.number().required(),
+    remainingQuantity: Joi.number().optional(),
     material: Joi.string().optional(),
     frameType: Joi.string().optional(),
     size: Joi.string().optional(),
@@ -17,8 +17,8 @@ const productSchema = Joi.object({
     sph: Joi.string().optional(),
     cyl: Joi.string().optional(),
     axis: Joi.string().optional(),
-    barcode: Joi.string().required(),
-    inStock: Joi.boolean().required()
+    barcode: Joi.string().optional(),
+    inStock: Joi.boolean().optional()
 });
 
 // Customer validation schema
