@@ -126,7 +126,8 @@ const getSalesForAccountService = async (date) => {
     const total = {
         total: totalResultInString,
         totalSales: totalSaleValue,
-        beginingCashReserved: beginingCashReservedToString
+        beginingCashReserved: beginingCashReservedToString,
+        allSalesDetail: salesAccordingToDate
     }
 
     return {
