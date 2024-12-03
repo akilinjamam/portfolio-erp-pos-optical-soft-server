@@ -83,12 +83,18 @@ const getSalesForAccountService = async (date) => {
         }
     }
 
-    // const targetDate = new Date(date);
+    const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
         $and: [
             {
-                paymentDate: date
+                $expr: {
+                    $and: [
+                        { $eq: [{ $year: '$createdAt' }, targetDate.getUTCFullYear()] },
+                        { $eq: [{ $month: '$createdAt' }, targetDate.getUTCMonth() + 1] },
+                        { $eq: [{ $dayOfMonth: '$createdAt' }, targetDate.getUTCDate()] },
+                    ],
+                },
             },
             { paymentMethod: "Cash" },
             {
