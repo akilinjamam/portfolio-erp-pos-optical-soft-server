@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const productSchema = mongoose.Schema({
     id: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        default: 'blank',
         auto: true
     },
     productName: {
