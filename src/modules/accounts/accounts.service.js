@@ -83,7 +83,7 @@ const getSalesForAccountService = async (date) => {
         }
     }
 
-    const targetDate = new Date(date);
+    // const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
         $and: [
