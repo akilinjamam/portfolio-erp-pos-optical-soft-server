@@ -16,7 +16,7 @@ const productSchema = mongoose.Schema({
         required: true
     },
     purchasePrice: {
-        type: String, // If purchasePrice should always be a number, you can change this to Number
+        type: String,
         required: true
     },
     category: {
@@ -148,6 +148,14 @@ const salesSchema = new mongoose.Schema({
         default: 'blank'
     },
     comment: {
+        type: String,
+        default: 'blank'
+    },
+    glassType: {
+        type: String,
+        default: 'blank'
+    },
+    lense: {
         type: String,
         default: 'blank'
     },
