@@ -119,6 +119,26 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    manual_sales: {
+        type: Boolean,
+        default: false
+    },
+    today_sales: {
+        type: Boolean,
+        default: false
+    },
+    today_due_collection: {
+        type: Boolean,
+        default: false
+    },
+    profit_expense_enalysis: {
+        type: Boolean,
+        default: false
+    },
+    profit_category_analysis: {
+        type: Boolean,
+        default: false
+    },
 },
     {
         timestamps: true,
