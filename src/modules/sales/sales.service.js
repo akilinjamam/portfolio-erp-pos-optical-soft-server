@@ -2,19 +2,39 @@ const { default: mongoose } = require("mongoose");
 const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
+const invoiceCalculation = require("../../calculation/calculateInvoice");
+
 
 const createSalesService = async (data) => {
+
+    const date = new Date();
+    const arrangeDate = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+
+    const getAllSales = await Sale.find({});
+
+    const totalSalesLenght = getAllSales?.length + 1;
+    const createInvoiceBarcode = invoiceCalculation(totalSalesLenght)
+    console.log(`${arrangeDate}${createInvoiceBarcode}`);
+
+
+
+    const { invoiceBarcode, ...remaining } = data
+    const newData = {
+        ...remaining,
+        invoiceBarcode: `${arrangeDate}${createInvoiceBarcode}`
+    }
+    console.log(newData);
 
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
 
-        if (!data) {
+        if (!newData) {
             throw new Error('data not added')
         }
 
 
-        const bulkUpdate = data?.products?.map(update => ({
+        const bulkUpdate = newData?.products?.map(update => ({
             updateOne: {
                 filter: { _id: update?.id },
                 update: {

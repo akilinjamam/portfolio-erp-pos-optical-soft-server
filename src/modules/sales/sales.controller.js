@@ -3,6 +3,7 @@ const { createSalesService, getSalesService, updateSalesService, getDueCollectio
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
+
         const result = await createSalesService(req.body)
         res.status(201).json({
             status: result.status,
