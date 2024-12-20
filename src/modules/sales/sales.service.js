@@ -4,30 +4,25 @@ const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
 const invoiceCalculation = require("../../calculation/calculateInvoice");
 
-
 const createSalesService = async (data) => {
+    const { invoiceBarcode, ...remaining } = data
 
     const date = new Date();
     const arrangeDate = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
-
-    const getAllSales = await Sale.find({});
-
-    const totalSalesLenght = getAllSales?.length + 1;
-    const createInvoiceBarcode = invoiceCalculation(totalSalesLenght)
-    console.log(`${arrangeDate}${createInvoiceBarcode}`);
-
-
-
-    const { invoiceBarcode, ...remaining } = data
-    const newData = {
-        ...remaining,
-        invoiceBarcode: `${arrangeDate}${createInvoiceBarcode}`
-    }
-    console.log(newData);
-
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
+
+        const getAllSales = await Sale.find({});
+
+        const totalSalesLenght = getAllSales?.length + 1;
+        const createInvoiceBarcode = invoiceCalculation(totalSalesLenght)
+
+        const newData = {
+            ...remaining,
+            invoiceBarcode: `${arrangeDate}${createInvoiceBarcode}`
+        }
+
 
         if (!newData) {
             throw new Error('data not added')
@@ -43,7 +38,7 @@ const createSalesService = async (data) => {
             }
         }))
 
-        const result = await Sale.create([data], { session });
+        const result = await Sale.create([newData], { session });
         await Products.bulkWrite(bulkUpdate, { session })
 
         await session.commitTransaction();
