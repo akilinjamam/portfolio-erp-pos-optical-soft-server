@@ -7,7 +7,7 @@ const createSalesService = async (data) => {
     const { invoiceBarcode, ...remaining } = data
 
     const date = new Date();
-    const arrangeDate = `${date.getFullYear()}${date.getMonth() + 1}${date.getDate()}`;
+    const arrangeDate = `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate()}`;
     const session = await mongoose.startSession();
     try {
         session.startTransaction();
@@ -41,6 +41,7 @@ const createSalesService = async (data) => {
             ...remaining,
             invoiceBarcode: `${arrangeDate}${newBarcode}`
         }
+
 
         if (!newData) {
             throw new Error('data not added')
