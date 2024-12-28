@@ -2,7 +2,6 @@ const { default: mongoose } = require("mongoose");
 const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
-const invoiceCalculation = require("../../calculation/calculateInvoice");
 
 const createSalesService = async (data) => {
     const { invoiceBarcode, ...remaining } = data
@@ -13,16 +12,35 @@ const createSalesService = async (data) => {
     try {
         session.startTransaction();
 
-        const getAllSales = await Sale.find({});
+        const getLastSales = await Sale.findOne().sort({ createdAt: -1 });
 
-        const totalSalesLenght = getAllSales?.length + 1;
-        const createInvoiceBarcode = invoiceCalculation(totalSalesLenght)
+        const barcode = getLastSales?.invoiceBarcode?.slice(8)
+
+        let newBarcode;
+
+        if (barcode === '99999') {
+            newBarcode = '00001'
+        } else {
+            if (getLastSales) {
+                const zeros = '00000';
+                const zerosLength = zeros?.length;
+                const convertIntoNumberAndAddOne = Number(barcode) + 1;
+                const barcodeNumberLength = convertIntoNumberAndAddOne?.toString()?.length;
+                const remainingZerosLength = zerosLength - barcodeNumberLength;
+                const remainingZeros = zeros?.slice(0, remainingZerosLength);
+
+                const result = `${remainingZeros}${convertIntoNumberAndAddOne}`
+                newBarcode = result;
+            } else {
+                newBarcode = '00001'
+            }
+        }
+
 
         const newData = {
             ...remaining,
-            invoiceBarcode: `${arrangeDate}${createInvoiceBarcode}`
+            invoiceBarcode: `${arrangeDate}${newBarcode}`
         }
-
 
         if (!newData) {
             throw new Error('data not added')
