@@ -96,7 +96,7 @@ const getSalesForAccountService = async (date) => {
                     ],
                 },
             },
-            { paymentMethod: "Cash" },
+            // { paymentMethod: "Cash" },
             {
                 $expr: {
                     $eq: [{ $toDouble: "$paidTime" }, 1]
