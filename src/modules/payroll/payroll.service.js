@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Employee = require("../employee/employee.model");
 const Payroll = require("./payroll.model")
 
@@ -145,21 +146,62 @@ const getPayrollService = async (employeeName, year, month) => {
         conditionValue = { $regex: `^${year}-${month}` }
     }
 
-    if (!employeeName) {
+    // if (!employeeName) {
+    //     return {
+    //         status: 201,
+    //         result: []
+    //     }
+    // }
+
+    if (!employeeName && !year && !month) {
+
+        const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+        const result = await Payroll.find({
+            createdAt: {
+                $gte: startOfMonth,
+                $lte: endOfMonth
+            }
+        }).populate('employeeName');
+
         return {
             status: 201,
-            result: []
+            result
+        }
+    }
+    if (!employeeName && year && month) {
+
+        const result = await Payroll.find({ date: conditionValue }).sort({ createdAt: -1 }).populate('employeeName');
+
+        return {
+            status: 201,
+            result
+        }
+    }
+    if (employeeName && !year && !month) {
+
+        const employeeObjectId = new mongoose.Types.ObjectId(employeeName);
+
+        const result = await Payroll.find({
+            employeeName: employeeObjectId
+        }).populate('employeeName');
+
+        return {
+            status: 201,
+            result
         }
     }
 
+    if (employeeName && year && month) {
+        const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: -1 }).populate('employeeName');
 
-
-    const result = await Payroll.find({ employeeName: employeeName, date: conditionValue }).sort({ createdAt: -1 }).populate('employeeName');
-
-    return {
-        status: 201,
-        result
+        return {
+            status: 201,
+            result
+        }
     }
+
 }
 
 const updatePayrollService = async (id, body) => {
