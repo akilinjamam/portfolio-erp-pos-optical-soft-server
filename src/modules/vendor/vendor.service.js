@@ -132,22 +132,54 @@ const getVendorWithIdService = async (supplierName, year, month) => {
     }
 
 
-    if (!supplierName) {
+    // if (!supplierName) {
+    //     return {
+    //         status: 201,
+    //         result: []
+    //     }
+    // }
+
+    if (!supplierName && !year && !month) {
+        const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+        const result = await Vendor.find({
+            createdAt: {
+                $gte: startOfMonth,
+                $lt: endOfMonth
+            }
+        }).populate('supplierName');
+
         return {
             status: 201,
-            result: []
+            result
         }
     }
 
-    console.log(supplierName, year, month)
+    if (!supplierName && year && month) {
+        const result = await Vendor.find({ paymentDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
 
-    const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
+        return {
+            status: 201,
+            result
+        }
+    }
 
+    if (supplierName && !year && !month) {
+        const result = await Vendor.find({ supplierName: supplierName }).sort({ createdAt: -1 }).populate('supplierName');
 
+        return {
+            status: 201,
+            result
+        }
+    }
 
-    return {
-        status: 201,
-        result
+    if (supplierName && year && month) {
+        const result = await Vendor.find({ supplierName: supplierName, paymentDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
+        return {
+            status: 201,
+            result
+        }
     }
 }
 
