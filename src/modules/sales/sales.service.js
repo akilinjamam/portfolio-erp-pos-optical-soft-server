@@ -213,6 +213,59 @@ const updateSalesService = async (id, data) => {
     }
 }
 
+const cancelSalesAdjutmentService = async (id) => {
+
+    const findSalesData = await Sale.findOne({ _id: id });
+
+    const paidTime = findSalesData?.paidTime;
+    const advance = findSalesData?.advance;
+
+    console.log(findSalesData?.invoiceBarcode);
+
+    if (!findSalesData) {
+        throw new Error('barcode not found')
+    }
+
+    const splitPaymentHistory = findSalesData?.paymentHistory?.split('+');
+
+
+    const totalInstallmentLength = splitPaymentHistory?.slice(1)?.length;
+
+    if (totalInstallmentLength === 1) {
+        throw new Error('No Adjutment added yet')
+    }
+
+    const totalInstallment = splitPaymentHistory?.slice(1);
+
+    const lastInstallment = totalInstallment?.[totalInstallmentLength - 1];
+
+    const updatedPaidTime = paidTime - 1;
+    const updatedAdvance = advance - lastInstallment;
+
+    const acceptLastInstallment = totalInstallment?.slice(0, totalInstallmentLength - 1);
+
+    const mappingRemainingInstallment = acceptLastInstallment?.map((item, index) => {
+        return `+${item}`
+    })
+
+
+    const newUpdatedData = {
+        paymentHistory: mappingRemainingInstallment.join(''),
+        paidTime: updatedPaidTime,
+        advance: updatedAdvance
+    }
+
+
+    const result = await Sale.updateOne({ _id: id }, { $set: newUpdatedData }, { runValidators: true });
+
+
+
+    return {
+        status: 200,
+        result: result
+    }
+}
+
 
 const getDueCollectionSalesService = async (paymentDate) => {
 
@@ -258,5 +311,6 @@ module.exports = {
     getSalesService,
     getOneMonthSalesService,
     updateSalesService,
+    cancelSalesAdjutmentService,
     getDueCollectionSalesService
 }
