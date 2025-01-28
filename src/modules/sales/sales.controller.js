@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createSalesService, getSalesService, getDueCollectionSalesService, getOneMonthSalesService, cancelSalesAdjutmentService, updateSalesAdjustmentService } = require("./sales.service")
+const { createSalesService, getSalesService, getDueCollectionSalesService, getOneMonthSalesService, cancelSalesAdjutmentService, updateSalesAdjustmentService, updateSalesInfoService } = require("./sales.service")
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
