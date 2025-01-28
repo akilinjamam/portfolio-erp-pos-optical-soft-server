@@ -1,7 +1,7 @@
 const passport = require('passport');
 const { runValidator } = require('../../joi_validation');
 const { salesSchema } = require('../../joi_validation/salesValidationSchema');
-const { createSalesController, getSalesController, updateSalesController, getDueCollectionSalesController, getOneMonthSalesController, cancelSalesAdjustmentController, updateSalesAdjustmentController } = require('./sales.controller');
+const { createSalesController, getSalesController, updateSalesController, getDueCollectionSalesController, getOneMonthSalesController, cancelSalesAdjustmentController, updateSalesAdjustmentController, updateSalesInfoController } = require('./sales.controller');
 
 const salesRouter = require('express').Router();
 
@@ -12,7 +12,7 @@ salesRouter.get('/get-one-month-sales', passport.authenticate('jwt', { session: 
 salesRouter.get('/get-due-collection', passport.authenticate('jwt', { session: false }), getDueCollectionSalesController)
 salesRouter.patch('/:id', updateSalesAdjustmentController)
 salesRouter.patch('/cancel-sales-adjustment/:id', cancelSalesAdjustmentController)
-salesRouter.patch('/update-sales-info/:id', cancelSalesAdjustmentController)
+salesRouter.patch('/update-sales-info/:id', updateSalesInfoController)
 module.exports = salesRouter;
 
 
