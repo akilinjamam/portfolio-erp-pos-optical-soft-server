@@ -184,7 +184,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
 }
 
 
-const updateSalesService = async (id, data) => {
+const updateSalesAdjustmentService = async (id, data) => {
 
     const splitHistory = data?.paymentHistory?.split('+')
 
@@ -306,11 +306,20 @@ const getDueCollectionSalesService = async (paymentDate) => {
 
 }
 
+const updateSalesInfoService = async (id, data) => {
+    const result = await Sale.updateOne({ _id: id }, { $set: data }, { runValidators: true });
+    return {
+        status: 200,
+        result: result
+    }
+}
+
 module.exports = {
     createSalesService,
     getSalesService,
     getOneMonthSalesService,
-    updateSalesService,
+    updateSalesAdjustmentService,
     cancelSalesAdjutmentService,
-    getDueCollectionSalesService
+    getDueCollectionSalesService,
+    updateSalesInfoService
 }

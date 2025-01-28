@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createSalesService, getSalesService, updateSalesService, getDueCollectionSalesService, getOneMonthSalesService, cancelSalesAdjutmentService } = require("./sales.service")
+const { createSalesService, getSalesService, getDueCollectionSalesService, getOneMonthSalesService, cancelSalesAdjutmentService, updateSalesAdjustmentService } = require("./sales.service")
 
 const createSalesController = tryCatchAsync(
     async (req, res) => {
@@ -53,10 +53,10 @@ const getDueCollectionSalesController = tryCatchAsync(
 )
 
 
-const updateSalesController = tryCatchAsync(
+const updateSalesAdjustmentController = tryCatchAsync(
     async (req, res) => {
         const { id } = req.params
-        const result = await updateSalesService(id, req?.body)
+        const result = await updateSalesAdjustmentService(id, req?.body)
         res.status(201).json({
             status: result.status,
             success: true,
@@ -78,11 +78,24 @@ const cancelSalesAdjustmentController = tryCatchAsync(
     }
 )
 
+const updateSalesInfoController = tryCatchAsync(
+    async (req, res) => {
+        const { id } = req.params;
+        const result = await updateSalesInfoService(id, req.body)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+
 module.exports = {
     createSalesController,
     getSalesController,
     getOneMonthSalesController,
-    updateSalesController,
+    updateSalesAdjustmentController,
     cancelSalesAdjustmentController,
-    getDueCollectionSalesController
+    getDueCollectionSalesController,
+    updateSalesInfoController
 }
