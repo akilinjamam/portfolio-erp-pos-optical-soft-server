@@ -308,18 +308,21 @@ const getDueCollectionSalesService = async (paymentDate) => {
 
 const updateSalesInfoService = async (id, data) => {
 
+    const { advance, paymentHistory, ...remainingData } = data;
 
-    const splitHistory = data?.paymentHistory?.split('+')?.slice(1);
+    let splitHistory = paymentHistory?.split('+')?.slice(1);
 
-    splitHistory[0] = data?.advance;
+    splitHistory[0] = advance;
 
     const newPaymentHistory = splitHistory?.map(item => {
         return `+${item}`
     })
 
     const newData = {
-        ...data,
-        paymentHistory: newPaymentHistory.join('')
+        ...remainingData,
+        advance: advance,
+        paymentHistory: newPaymentHistory.join(''),
+        todayPaid: advance
     }
 
 
