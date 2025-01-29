@@ -333,6 +333,36 @@ const updateSalesInfoService = async (id, data) => {
     }
 }
 
+
+const updateProductInfoService = async (id, data) => {
+
+    const { productId, productName, quantity, actualSalesPrice } = data;
+
+    console.log(productId, productName, quantity, actualSalesPrice)
+
+    const modifiedQuantity = Number(quantity)
+    const modifiedActualSalesPrice = Number(actualSalesPrice)
+
+    const result = await Sale.updateOne(
+        { _id: id, 'products.id': productId },
+        {
+            $set: {
+                'products.$.productName': productName,
+                'products.$.quantity': modifiedQuantity,
+                'products.$.actualSalesPrice': modifiedActualSalesPrice
+            }
+        },
+        { runValidators: true }
+    )
+
+    return {
+        status: 200,
+        result: result
+    }
+
+
+}
+
 module.exports = {
     createSalesService,
     getSalesService,
@@ -340,5 +370,6 @@ module.exports = {
     updateSalesAdjustmentService,
     cancelSalesAdjutmentService,
     getDueCollectionSalesService,
-    updateSalesInfoService
+    updateSalesInfoService,
+    updateProductInfoService
 }
