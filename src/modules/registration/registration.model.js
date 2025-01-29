@@ -87,6 +87,10 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    manage_sales: {
+        type: Boolean,
+        default: false
+    },
     add_employee: {
         type: Boolean,
         default: false
