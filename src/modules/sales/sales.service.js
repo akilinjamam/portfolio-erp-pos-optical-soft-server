@@ -307,7 +307,23 @@ const getDueCollectionSalesService = async (paymentDate) => {
 }
 
 const updateSalesInfoService = async (id, data) => {
-    const result = await Sale.updateOne({ _id: id }, { $set: data }, { runValidators: true });
+
+
+    const splitHistory = data?.paymentHistory?.split('+')?.slice(1);
+
+    splitHistory[0] = data?.advance;
+
+    const newPaymentHistory = splitHistory?.map(item => {
+        return `+${item}`
+    })
+
+    const newData = {
+        ...data,
+        paymentHistory: newPaymentHistory.join('')
+    }
+
+
+    const result = await Sale.updateOne({ _id: id }, { $set: newData }, { runValidators: true });
     return {
         status: 200,
         result: result
