@@ -177,6 +177,11 @@ const salesSchema = new mongoose.Schema({
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
         required: true
     },
+    duePaymentMethod: {
+        type: String,
+        enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
+        default: 'blank'
+    },
     invoiceBarcode: {
         type: String,
         required: true,
