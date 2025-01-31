@@ -282,7 +282,7 @@ const getDueCollectionSalesService = async (paymentDate) => {
         {
             $match: {
                 paymentDate: paymentDate,
-                paymentMethod: 'Cash',
+                // paymentMethod: 'Cash',
                 $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] }
             }
         }
