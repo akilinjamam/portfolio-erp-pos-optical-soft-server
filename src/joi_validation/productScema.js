@@ -21,7 +21,8 @@ const productValidationSchema = Joi.object({
     axis: Joi.string().required(),
     supplierName: Joi.string().required(),
     collectorName: Joi.string().required(),
-    inStock: Joi.boolean().default(true)
+    inStock: Joi.boolean().default(true),
+    stockAmount: Joi.string().default('0'),
 });
 
 module.exports.bulkProductValidationSchema = Joi.array().items(productValidationSchema);

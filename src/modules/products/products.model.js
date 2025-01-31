@@ -82,6 +82,10 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    stockAmount: {
+        type: String,
+        default: '0'
+    },
     inStock: {
         type: Boolean,
         default: true
