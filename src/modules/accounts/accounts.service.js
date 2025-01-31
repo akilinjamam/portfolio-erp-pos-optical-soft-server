@@ -28,7 +28,7 @@ const createAccountService = async (data) => {
 
     // const allProducts = salesAccordingToDate.flatMap(sale => sale.products.map(item => item.actualSalesPrice * item.quantity));
 
-    const allProducts = salesAccordingToDate.map(paid => Number(paid.todayPaid))
+    const allProducts = salesAccordingToDate.flatMap(paid => Number(paid.paymentHistory?.split('+')?.slice(1, 2)))
 
     const allExprenses = expenses.map(expense => Number(expense.expenseAmount));
 
