@@ -170,8 +170,8 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
         {
             $match: {
                 createdAt: {
-                    $gte: startOfMonth,
-                    $lte: endOfMonth
+                    $gte: startOfMonth.toISOString(),
+                    $lte: endOfMonth.toISOString()
                 }
             }
         }
