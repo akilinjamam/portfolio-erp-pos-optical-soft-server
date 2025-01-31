@@ -166,6 +166,8 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
     const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
 
+    endOfMonth.setHours(23, 59, 59, 999)
+
     const result = await Sale.aggregate([
         {
             $match: {
