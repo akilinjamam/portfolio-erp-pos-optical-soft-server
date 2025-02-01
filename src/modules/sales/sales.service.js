@@ -287,6 +287,52 @@ const getDueCollectionSalesService = async (paymentDate) => {
             }
         }
     ]
+    const piplineForCash = [
+        {
+            $match: {
+                paymentDate: paymentDate,
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Cash',
+            }
+        }
+    ]
+    const piplineForBank = [
+        {
+            $match: {
+                paymentDate: paymentDate,
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Bank',
+            }
+        }
+    ]
+    const piplineForBkash = [
+        {
+            $match: {
+                paymentDate: paymentDate,
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Bkash',
+            }
+        }
+    ]
+    const piplineForNogod = [
+        {
+            $match: {
+                paymentDate: paymentDate,
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Nogod',
+            }
+        }
+    ]
+
+    const dueCashPaid = await Sale.aggregate(piplineForCash)
+    const dueBankPaid = await Sale.aggregate(piplineForBank)
+    const dueBkashPaid = await Sale.aggregate(piplineForBkash)
+    const dueNogodPaid = await Sale.aggregate(piplineForNogod)
+
+    const dueCashPaidValue = calculateTotal(dueCashPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueBankPaidValue = calculateTotal(dueBankPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueBkashPaidValue = calculateTotal(dueBkashPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueNogodPaidValue = calculateTotal(dueNogodPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
 
     const result = await Sale.aggregate(pipline);
 
@@ -301,6 +347,10 @@ const getDueCollectionSalesService = async (paymentDate) => {
         result: {
             totalSales,
             totalPaidDueCollection,
+            dueCashPaidValue,
+            dueBankPaidValue,
+            dueBkashPaidValue,
+            dueNogodPaidValue,
             result
         }
     }

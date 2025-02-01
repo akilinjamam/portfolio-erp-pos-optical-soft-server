@@ -28,6 +28,7 @@ const createAccountService = async (data) => {
 
     // const allProducts = salesAccordingToDate.flatMap(sale => sale.products.map(item => item.actualSalesPrice * item.quantity));
 
+    // const allProducts = salesAccordingToDate.map(paid => Number(paid.todayPaid))
     const allProducts = salesAccordingToDate.flatMap(paid => Number(paid.paymentHistory?.split('+')?.slice(1, 2)))
 
     const allExprenses = expenses.map(expense => Number(expense.expenseAmount));
@@ -70,7 +71,7 @@ const createAccountService = async (data) => {
 
     return {
         status: 201,
-        result: allProducts
+        result: newData
     }
 }
 
@@ -97,11 +98,11 @@ const getSalesForAccountService = async (date) => {
                 },
             },
             // { paymentMethod: "Cash" },
-            {
-                $expr: {
-                    $eq: [{ $toDouble: "$paidTime" }, 1]
-                }
-            }
+            // {
+            //     $expr: {
+            //         $eq: [{ $toDouble: "$paidTime" }, 1]
+            //     }
+            // }
         ],
     });
 
@@ -130,6 +131,67 @@ const getSalesForAccountService = async (date) => {
         allSalesDetail: salesAccordingToDate
     }
 
+    console.log(total)
+
+    return {
+        status: 201,
+        result: total
+    }
+}
+const getTodaySalesForAddExpensesSevice = async (date) => {
+
+    if (!date) {
+        return {
+            status: 201,
+            result: []
+        }
+    }
+
+    const targetDate = new Date(date);
+
+    const salesAccordingToDate = await Sale.find({
+        $and: [
+            {
+                $expr: {
+                    $and: [
+                        { $eq: [{ $year: '$createdAt' }, targetDate.getUTCFullYear()] },
+                        { $eq: [{ $month: '$createdAt' }, targetDate.getUTCMonth() + 1] },
+                        { $eq: [{ $dayOfMonth: '$createdAt' }, targetDate.getUTCDate()] },
+                    ],
+                },
+            },
+            { paymentMethod: "Cash" },
+
+        ],
+    });
+
+    if (salesAccordingToDate?.length === 0) {
+        throw new Error('not found')
+    }
+
+    const allProducts = salesAccordingToDate.map(paid => Number(paid?.paymentHistory?.split('+')?.slice(1, 2)))
+
+    const findBeginingCashReserved = await Account.findOne({ date: date }).sort({ createdAt: -1 })
+
+    const totalSaleValue = calculateTotal(allProducts).toString()
+    const beginingCashReserved = findBeginingCashReserved?.endingCashReserved ? findBeginingCashReserved?.endingCashReserved : 0
+
+
+    const totalResult = Number(beginingCashReserved) + Number(totalSaleValue)
+
+    const totalResultInString = totalResult.toString();
+
+    const beginingCashReservedToString = beginingCashReserved?.toString();
+
+    const total = {
+        total: totalResultInString,
+        totalSales: totalSaleValue,
+        beginingCashReserved: beginingCashReservedToString,
+        allSalesDetail: salesAccordingToDate
+    }
+
+    console.log(total)
+
     return {
         status: 201,
         result: total
@@ -137,7 +199,6 @@ const getSalesForAccountService = async (date) => {
 }
 
 const getAccountService = async (year, month) => {
-
 
     let conditionValue = '';
 
@@ -184,8 +245,6 @@ const getAccountProfitExpensesService = async () => {
 
 
     const netCashProfit = getAllProfitAllocation
-
-    console.log('cash-profit', netCashProfit);
 
 
     const pipelineForBank = [
@@ -390,5 +449,6 @@ module.exports = {
     getAccountProfitExpensesService,
     getSalesForAccountService,
     updateAccountService,
-    deleteAccountService
+    deleteAccountService,
+    getTodaySalesForAddExpensesSevice
 }
