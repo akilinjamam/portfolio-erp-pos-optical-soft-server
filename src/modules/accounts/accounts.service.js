@@ -146,7 +146,7 @@ const getTodaySalesForAddExpensesSevice = async (date) => {
             result: []
         }
     }
-
+    console.log(date);
     const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
@@ -222,7 +222,7 @@ const getAccountProfitExpensesService = async () => {
     const date = new Date();
 
     const year = date.getFullYear()
-    const month = date.getMonth() + 1;
+    const month = (date.getMonth() + 1)?.toString()?.length > 1 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
 
 
     let conditionValue = '';
@@ -234,13 +234,10 @@ const getAccountProfitExpensesService = async () => {
     const allProfitAllocation = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
 
 
+    // console.log(allProfitAllocation);
 
 
     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
-
-    console.log(getAllProfitAllocation);
-
-
 
 
 
