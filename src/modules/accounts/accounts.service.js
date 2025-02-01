@@ -231,7 +231,7 @@ const getAccountProfitExpensesService = async () => {
         conditionValue = { $regex: `${year}-${month}` }
     }
 
-    const allProfitAllocation = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
+    const allProfitAllocation = await Account.find({}).sort({ createdAt: 1 });
 
 
     // console.log(allProfitAllocation);
