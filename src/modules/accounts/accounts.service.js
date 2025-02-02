@@ -1,4 +1,5 @@
 const calculateTotal = require("../../calculation/calculateSum");
+const FinalAccount = require("../finalAccounts/finalAccounts.model");
 const Payroll = require("../payroll/payroll.model");
 const Sale = require("../sales/sales.modal");
 const Vendor = require("../vendor/vendor.model");
@@ -219,8 +220,6 @@ const getAccountService = async (year, month) => {
 }
 const getAccountProfitExpensesService = async (yearMonth) => {
 
-    console.log(yearMonth);
-
     const date = new Date();
     let year;
     let month;
@@ -414,6 +413,16 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
     const netProfit = totalProfitAmount - totalExpenses;
 
+    const monthlyFixedExpenses = await FinalAccount.find({ date: conditionValue });
+
+
+
+    const sumOfFixedExpenses = monthlyFixedExpenses?.flatMap(fixedExp => {
+        return fixedExp?.expenses?.map(exp => Number(exp?.expenseAmount)).reduce((acc, curr) => acc + curr, 0);
+    })?.reduce((acc, curr) => acc + curr, 0);
+
+    console.log(sumOfFixedExpenses)
+
     const total = {
         cashProfit: netCashProfit,
         bankProfit: netBankProfit,
@@ -424,6 +433,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
         salaryExpenses: totalPayrollExpenses,
         vendorExpenses: calculateAllPaidAmountVendors,
         totalExpenses,
+        fixedExpenses: sumOfFixedExpenses,
         netProfit: netProfit
     }
 
