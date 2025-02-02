@@ -10,8 +10,7 @@ const finalAccountCreateService = async (data) => {
     const date = new Date();
 
     const year = date.getFullYear()
-    const month = date.getMonth() + 1;
-
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
 
     let conditionValue = '';
 
@@ -21,18 +20,9 @@ const finalAccountCreateService = async (data) => {
 
     const allProfitAllocation = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
 
-
-
-
     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
 
-
-
-
     const netCashProfit = getAllProfitAllocation
-
-
-
 
     const pipelineForBank = [
 
