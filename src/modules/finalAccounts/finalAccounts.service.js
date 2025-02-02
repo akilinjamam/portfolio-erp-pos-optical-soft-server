@@ -117,14 +117,10 @@ const finalAccountCreateService = async (data) => {
 
     const allRocketSaleTransection = await Sale.aggregate(pipelineForRocket)
 
-
-
     const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.advance)));
 
 
     const netRocketProfit = calculateTotalRocketSale
-
-
 
     const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit
 
@@ -162,9 +158,6 @@ const finalAccountCreateService = async (data) => {
 
     const calculateAllPaidAmountVendors = calculateTotal(allVendors?.map(vendor => Number(vendor?.paid)));
 
-
-
-
     const totalExpenses = calculateAllPaidAmountVendors + totalPayrollExpenses;
 
     const netProfit = totalProfitAmount - totalExpenses;
@@ -183,7 +176,9 @@ const finalAccountCreateService = async (data) => {
         ...data,
         totalProfit: netProfitString,
         totalExpense: calculateFixedExpensesString,
-        profitAllocation: finalProfitString
+        profitAllocation: finalProfitString,
+        vendorExpenses: calculateAllPaidAmountVendors,
+        payrollExpenses: totalPayrollExpenses
     }
 
 
