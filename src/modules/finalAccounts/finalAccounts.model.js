@@ -32,6 +32,14 @@ const finalAccountsSchema = mongoose.Schema({
         type: String,
         default: '0'
     },
+    vendorExpenses: {
+        type: Number,
+        default: 0
+    },
+    payrollExpenses: {
+        type: Number,
+        default: 0
+    },
     expenses: {
         type: [expenseSchema],
         required: true,
