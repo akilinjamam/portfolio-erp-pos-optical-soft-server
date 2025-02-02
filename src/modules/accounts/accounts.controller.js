@@ -27,9 +27,9 @@ const getAccountsController = tryCatchAsync(
 const getAccountProfitExpensesController = tryCatchAsync(
     async (req, res) => {
 
-        const { year, month } = req.query
+        const { yearMonth } = req.query
 
-        const result = await getAccountProfitExpensesService(year, month)
+        const result = await getAccountProfitExpensesService(yearMonth)
         res.status(201).json({
             status: result.status,
             success: true,

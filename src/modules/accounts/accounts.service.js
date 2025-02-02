@@ -217,13 +217,23 @@ const getAccountService = async (year, month) => {
         result
     }
 }
-const getAccountProfitExpensesService = async () => {
+const getAccountProfitExpensesService = async (yearMonth) => {
+
+    console.log(yearMonth);
 
     const date = new Date();
+    let year;
+    let month;
 
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1)?.toString()?.length > 1 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
-
+    if (yearMonth) {
+        const splitYear = yearMonth?.split('-')[0];
+        const splitMonth = yearMonth?.split('-')[1];
+        year = splitYear;
+        month = splitMonth
+    } else {
+        year = date.getFullYear()
+        month = (date.getMonth() + 1)?.toString()?.length > 1 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
+    }
 
     let conditionValue = '';
 
