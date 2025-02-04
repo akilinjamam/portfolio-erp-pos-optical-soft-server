@@ -43,7 +43,7 @@ const finalAccountCreateService = async (data) => {
 
 
 
-    const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
 
@@ -71,7 +71,7 @@ const finalAccountCreateService = async (data) => {
 
 
 
-    const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
     const netBkashProfit = calculateTotalBkashSale
 
@@ -94,7 +94,7 @@ const finalAccountCreateService = async (data) => {
 
 
 
-    const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
     const netNogodProfit = calculateTotalNogodSale
@@ -117,12 +117,81 @@ const finalAccountCreateService = async (data) => {
 
     const allRocketSaleTransection = await Sale.aggregate(pipelineForRocket)
 
-    const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
     const netRocketProfit = calculateTotalRocketSale
 
-    const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit
+    const pipelineForBankDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Bank'
+            }
+        },
+
+    ];
+
+    const allBankSaleTransectionDue = await Sale.aggregate(pipelineForBankDue)
+
+    const calculateTotalBackSaleDue = calculateTotal(allBankSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+    const netBankProfitDue = calculateTotalBackSaleDue
+
+    const pipelineForBkashDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Bkash'
+            }
+        },
+
+    ];
+
+    const allBkashSaleTransectionDue = await Sale.aggregate(pipelineForBkashDue)
+
+
+
+    const calculateTotalBkashSaleDue = calculateTotal(allBkashSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+    const netBkashProfitDue = calculateTotalBkashSaleDue
+
+    const pipelineForNogodDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Nogod'
+            }
+        },
+
+    ];
+
+    const allNogodSaleTransectionDue = await Sale.aggregate(pipelineForNogodDue)
+
+
+
+    const calculateTotalNogodSaleDue = calculateTotal(allNogodSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+    const netNogodProfitDue = calculateTotalNogodSaleDue
+
+
+    const totalProfitAmount = netCashProfit + netBankProfit + netBankProfitDue + netBkashProfit + netBkashProfitDue + netNogodProfit + netNogodProfitDue
 
 
     const pipelineForPayroll = [
@@ -186,7 +255,7 @@ const finalAccountCreateService = async (data) => {
 
     return {
         status: 201,
-        result
+        result: result
     }
 }
 

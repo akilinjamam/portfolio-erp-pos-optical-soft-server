@@ -8,7 +8,7 @@ const Account = require("./accounts.model");
 const createAccountService = async (data) => {
 
     const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount } = data
-
+    console.log(startingCashReserved)
     const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
@@ -40,7 +40,9 @@ const createAccountService = async (data) => {
 
     const lastAccount = await Account.findOne({}).sort({ createdAt: -1 });
 
-    const conditionalStartingCash = startingCashReserved === '0' ? lastAccount?.endingCashReserved : startingCashReserved
+    console.log(lastAccount)
+
+    const conditionalStartingCash = lastAccount ? lastAccount?.endingCashReserved : '0'
 
     const totalSalesWithBeginingCashAndDueCollection = Number(conditionalStartingCash) + Number(totalSaleValue) + Number(dueSalesAmount);
 
@@ -66,7 +68,7 @@ const createAccountService = async (data) => {
         expenses
     }
 
-
+    console.log(newData)
     await Account.create(newData)
 
 
@@ -253,6 +255,34 @@ const getAccountProfitExpensesService = async (yearMonth) => {
     const netCashProfit = getAllProfitAllocation
 
 
+    const pipelineForCash = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                paymentMethod: 'Cash'
+            }
+        },
+
+    ];
+
+    const allCashSaleTransection = await Sale.aggregate(pipelineForCash)
+
+
+    const calculateTotalCashSale = calculateTotal(allCashSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
+
+
+
+    const netCash = calculateTotalCashSale
+
+    console.log('net-cash', netCash);
+
+
+
     const pipelineForBank = [
 
         {
@@ -272,7 +302,8 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
 
 
-    const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.advance)));
+
+    const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
 
@@ -300,7 +331,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
 
 
-    const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
 
@@ -329,7 +360,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
 
 
-    const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.advance)));
+    const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
 
 
 
@@ -367,7 +398,156 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
     console.log('net-rocket-profit', netRocketProfit);
 
-    const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit
+
+
+    const pipelineForCashDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Cash'
+            }
+        },
+
+    ];
+
+    const allCashSaleTransectionDue = await Sale.aggregate(pipelineForCashDue)
+
+
+
+
+    const calculateTotalCashSaleDue = calculateTotal(allCashSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+    const netCashDue = calculateTotalCashSaleDue
+
+    console.log('net-cash-due', netCashDue);
+
+
+
+    const pipelineForBankDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Bank'
+            }
+        },
+
+    ];
+
+    const allBankSaleTransectionDue = await Sale.aggregate(pipelineForBankDue)
+
+
+
+
+    const calculateTotalBackSaleDue = calculateTotal(allBankSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+    const netBankProfitDue = calculateTotalBackSaleDue
+
+    console.log('net-bank-profit-due', netBankProfitDue);
+
+
+    const pipelineForBkashDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Bkash'
+            }
+        },
+
+    ];
+
+    const allBkashSaleTransectionDue = await Sale.aggregate(pipelineForBkashDue)
+
+
+
+    const calculateTotalBkashSaleDue = calculateTotal(allBkashSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+    const netBkashProfitDue = calculateTotalBkashSaleDue
+
+    console.log('net-bkash-profit-due', netBkashProfitDue);
+
+
+
+    const pipelineForNogodDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Nogod'
+            }
+        },
+
+    ];
+
+    const allNogodSaleTransectionDue = await Sale.aggregate(pipelineForNogodDue)
+
+
+
+    const calculateTotalNogodSaleDue = calculateTotal(allNogodSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+    const netNogodProfitDue = calculateTotalNogodSaleDue
+
+    console.log('net-nogod-profit-due', netNogodProfitDue);
+
+
+
+
+    const pipelineForRocketDue = [
+
+        {
+            $match: {
+                paymentDate: conditionValue
+            }
+        },
+        {
+            $match: {
+                duePaymentMethod: 'Rocket'
+            }
+        },
+
+    ];
+
+    const allRocketSaleTransectionDue = await Sale.aggregate(pipelineForRocketDue)
+
+
+
+    const calculateTotalRocketSaleDue = calculateTotal(allRocketSaleTransectionDue?.map(item => Number(item?.advance)));
+
+
+
+    const netRocketProfitDue = calculateTotalRocketSaleDue
+
+    console.log('net-rocket-profit-due', netRocketProfitDue);
+
+
+
+    const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit + netBankProfitDue + netBkashProfitDue + netNogodProfitDue
 
 
     const pipelineForPayroll = [
@@ -425,9 +605,14 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
     const total = {
         cashProfit: netCashProfit,
+        cashSale: netCash,
+        cashDue: netCashDue,
         bankProfit: netBankProfit,
+        bankDueCollection: netBankProfitDue,
         bkashProfit: netBkashProfit,
+        bkashDueCollection: netBkashProfitDue,
         nogodProfit: netNogodProfit,
+        nogodDueCollection: netNogodProfitDue,
         rocketProfit: netRocketProfit,
         totalProfit: totalProfitAmount,
         salaryExpenses: totalPayrollExpenses,
