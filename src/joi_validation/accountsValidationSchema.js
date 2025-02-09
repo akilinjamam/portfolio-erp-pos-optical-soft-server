@@ -15,6 +15,9 @@ const accountsSchema = Joi.object({
     startingCashReserved: Joi.string().optional(),
     deficit: Joi.string().optional(),
     endingCashReserved: Joi.string().required(),
+    todayBankValue: Joi.number().required(),
+    todayBkashValue: Joi.number().required(),
+    todayNogodValue: Joi.number().required(),
     expenses: Joi.array().items(expenseSchema).required()
 });
 

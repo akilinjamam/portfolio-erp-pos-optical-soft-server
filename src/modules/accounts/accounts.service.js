@@ -7,7 +7,7 @@ const Account = require("./accounts.model");
 
 const createAccountService = async (data) => {
 
-    const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount } = data
+    const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount, todayBankValue, todayBkashValue, todayNogodValue } = data
     console.log(startingCashReserved)
     const targetDate = new Date(date);
 
@@ -65,6 +65,9 @@ const createAccountService = async (data) => {
         totalSalesAmount: totalSalesAmountInString,
         deficit: conditionalDeficit,
         dueSalesAmount,
+        todayBankValue,
+        todayBkashValue,
+        todayNogodValue,
         expenses
     }
 
@@ -247,10 +250,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
     // console.log(allProfitAllocation);
 
-
     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
-
-
 
     const netCashProfit = getAllProfitAllocation
 

@@ -48,6 +48,18 @@ const accountsSchema = mongoose.Schema({
         type: String,
         default: '0'
     },
+    todayBankValue: {
+        type: Number,
+        required: true
+    },
+    todayBkashValue: {
+        type: Number,
+        required: true
+    },
+    todayNogodValue: {
+        type: Number,
+        required: true
+    },
     expenses: {
         type: [expenseSchema],
         required: true,
