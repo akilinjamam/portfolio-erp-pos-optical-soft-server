@@ -204,12 +204,18 @@ const getTodaySalesForAddExpensesSevice = async (date) => {
     }
 }
 
-const getAccountService = async (year, month) => {
+const getAccountService = async (year, month, fullDate) => {
+
+    console.log(fullDate)
 
     let conditionValue = '';
 
-    if (year && month) {
+    if (year && month && !fullDate) {
         conditionValue = { $regex: `${year}-${month}` }
+    }
+
+    if (!year && !month && fullDate) {
+        conditionValue = `${fullDate}`
     }
 
 
