@@ -140,14 +140,11 @@ const getVendorWithIdService = async (supplierName, year, month) => {
     // }
 
     if (!supplierName && !year && !month) {
-        const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-        const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+        const currentYear = new Date().getFullYear();
+        const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
 
         const result = await Vendor.find({
-            createdAt: {
-                $gte: startOfMonth,
-                $lt: endOfMonth
-            }
+            paymentDate: { $regex: `^${currentYear}-${currentMonth}` }
         }).populate('supplierName');
 
         return {
