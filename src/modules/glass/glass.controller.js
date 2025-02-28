@@ -1,6 +1,16 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createGlassTypeService, deleteGlassTypeService } = require("./glass.service")
+const { createGlassTypeService, deleteGlassTypeService, getGlassTypeService } = require("./glass.service")
 
+const getGlassTypeController = tryCatchAsync(
+    async (req, res) => {
+        const result = await getGlassTypeService()
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
 const createGlassTypeController = tryCatchAsync(
     async (req, res) => {
         const result = await createGlassTypeService(req.body)
@@ -25,5 +35,6 @@ const deleteGlassTypeController = tryCatchAsync(
 
 module.exports = {
     createGlassTypeController,
-    deleteGlassTypeController
+    deleteGlassTypeController,
+    getGlassTypeController
 }
