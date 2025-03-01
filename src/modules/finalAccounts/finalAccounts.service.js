@@ -9,13 +9,14 @@ const finalAccountCreateService = async (data) => {
 
     const date = new Date();
 
-    const year = date.getFullYear()
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    // const year = date.getFullYear()
+    // const month = (date.getMonth() + 1).toString().padStart(2, '0');
 
     let conditionValue = '';
+    const yearMonth = data.date?.slice(0, 7);
 
-    if (year && month) {
-        conditionValue = { $regex: `${year}-${month}` }
+    if (yearMonth) {
+        conditionValue = { $regex: `${yearMonth}` }
     }
 
     const allProfitAllocation = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
