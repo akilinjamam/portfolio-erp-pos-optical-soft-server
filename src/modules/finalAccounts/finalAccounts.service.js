@@ -50,9 +50,6 @@ const finalAccountCreateService = async (data) => {
 
     const netBankProfit = calculateTotalBackSale
 
-
-
-
     const pipelineForBkash = [
 
         {
