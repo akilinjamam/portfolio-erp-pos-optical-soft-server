@@ -240,10 +240,11 @@ const createVendorService = async (data) => {
 
 const getLastVendorService = async (supplierName) => {
     const lastVendor = await Vendor.findOne({ supplierName: supplierName }).sort({ createdAt: -1 }).populate('supplierName');
+    const lastBilling = await Vendor.findOne({ supplierName: supplierName }).sort({ billingDate: -1, createdAt: -1 }).populate('supplierName');
 
     return {
         status: 201,
-        result: lastVendor
+        result: { ...lastVendor, lastBillingDate: lastBilling?.billingDate }
     }
 }
 
