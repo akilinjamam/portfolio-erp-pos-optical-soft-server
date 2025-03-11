@@ -30,7 +30,8 @@ const getLastVendorController = tryCatchAsync(
         res.status(201).json({
             status: result.status,
             success: true,
-            result: result.result
+            result: result.result,
+            lastBillingDate: result.lastBillingDate
         })
     }
 )
