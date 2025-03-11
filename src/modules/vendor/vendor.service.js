@@ -273,7 +273,7 @@ const getVendorWithIdService = async (supplierName, year, month) => {
 
         const result = await Vendor.find({
             paymentDate: { $regex: `^${currentYear}-${currentMonth}` }
-        }).populate('supplierName');
+        }).sort({ createdAt: -1 }).populate('supplierName');
 
         return {
             status: 201,
