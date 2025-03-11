@@ -169,7 +169,8 @@ const createVendorBillService = async (data) => {
         prevDue: due?.toString(),
         due: conditionalDue?.toString(),
         billingDate: data?.billingDate,
-        paymentDate: ""
+        paymentDate: "",
+        billNo: data?.billNo
 
     }
 
