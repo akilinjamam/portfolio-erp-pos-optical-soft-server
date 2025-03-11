@@ -31,7 +31,8 @@ const getLastVendorController = tryCatchAsync(
             status: result.status,
             success: true,
             result: result.result,
-            lastBillingDate: result.lastBillingDate
+            lastBillingDate: result.lastBillingDate,
+            lastPaymentDate: result.lastPaymentDate,
         })
     }
 )
