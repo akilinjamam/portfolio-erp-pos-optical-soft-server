@@ -12,19 +12,18 @@ const vendorSchema = mongoose.Schema({
     },
     paymentDate: {
         type: String,
-        required: true
     },
     billingDate: {
         type: String,
-        required: true
+
     },
     paid: {
         type: String,
-        required: true
+
     },
     billNo: {
         type: String,
-        required: true
+
     },
     billAmount: {
         type: String,
@@ -48,8 +47,8 @@ const vendorSchema = mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ['cash', 'bank', 'bkash', 'nogod', 'rocket'],
-        default: 'cash'
+        enum: ['cash', 'bank', 'bkash', 'nogod', 'rocket', 'blank'],
+        default: 'blank'
 
     },
     transectionId: {

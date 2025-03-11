@@ -2,10 +2,10 @@ const Joi = require("joi");
 
 module.exports.vendorValidationSchema = Joi.object({
     supplierName: Joi.string().required(),
-    billingDate: Joi.string().required(),
-    paymentDate: Joi.string().required(),
-    paid: Joi.string().required(),
-    billNo: Joi.string().required(),
+    billingDate: Joi.string().optional(),
+    paymentDate: Joi.string().optional(),
+    paid: Joi.string().optional(),
+    billNo: Joi.string().optional(),
     totalPaid: Joi.string().optional(),
     billAmount: Joi.string().optional(),
     singleBillAmount: Joi.string().optional(),
