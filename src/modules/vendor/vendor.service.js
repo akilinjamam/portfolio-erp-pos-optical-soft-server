@@ -248,6 +248,7 @@ const getLastVendorService = async (supplierName) => {
         result: lastVendor,
         lastBillingDate: lastBilling?.billingDate,
         lastPaymentDate: lastPayment?.paymentDate,
+        lastPaid: lastPayment?.paid
     }
 }
 
