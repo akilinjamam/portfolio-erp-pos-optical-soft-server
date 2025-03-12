@@ -67,6 +67,10 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    best_sale_performer: {
+        type: Boolean,
+        default: false
+    },
     product_entry: {
         type: Boolean,
         default: false
@@ -140,6 +144,14 @@ const registrationSchema = mongoose.Schema({
         default: false
     },
     profit_category_analysis: {
+        type: Boolean,
+        default: false
+    },
+    stock_analysis: {
+        type: Boolean,
+        default: false
+    },
+    sales_analysis: {
         type: Boolean,
         default: false
     },
