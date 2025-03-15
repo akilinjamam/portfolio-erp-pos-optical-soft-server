@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = require('mongoose');
 
-
 const payrollSchema = mongoose.Schema({
 
     employeeName: {
@@ -10,6 +9,10 @@ const payrollSchema = mongoose.Schema({
         ref: 'Employee'
     },
     netSalary: {
+        type: String,
+        default: '0'
+    },
+    totalSalary: {
         type: String,
         default: '0'
     },
@@ -23,7 +26,7 @@ const payrollSchema = mongoose.Schema({
     },
     paid: {
         type: String,
-        required: true,
+        default: '0'
     },
     totalPaid: {
         type: String,
@@ -49,19 +52,15 @@ const payrollSchema = mongoose.Schema({
         type: String,
         enum: ['cash', 'bank', 'bkash', 'nogod', 'rocket'],
         default: 'cash'
-
     },
     transectionId: {
         type: String,
         default: 'blank'
-
     },
     date: {
         type: String,
         required: true
-
     }
-
 },
     {
         timestamps: true,

@@ -1,9 +1,19 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createPayrollService, getSinglePayrollService, getPayrollService, updatePayrollService, deletePayrollService } = require("./payroll.service")
+const { createPayrollService, getSinglePayrollService, getPayrollService, updatePayrollService, deletePayrollService, createPayrollBonusService } = require("./payroll.service")
 
 const createPayrollController = tryCatchAsync(
     async (req, res) => {
         const result = await createPayrollService(req.body)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
+const createPayrollBonusController = tryCatchAsync(
+    async (req, res) => {
+        const result = await createPayrollBonusService(req.body)
         res.status(201).json({
             status: result.status,
             success: true,
@@ -59,6 +69,7 @@ const deletePayrollController = tryCatchAsync(
 
 module.exports = {
     createPayrollController,
+    createPayrollBonusController,
     getSinglePayrollController,
     getPayrollController,
     deletePayrollController,
