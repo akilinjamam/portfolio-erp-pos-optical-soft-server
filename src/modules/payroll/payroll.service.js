@@ -277,6 +277,7 @@ const createPayrollBonusService = async (data) => {
             netSalary: findEmployee?.basicSalary,
             paymentMethod,
             transectionId,
+            due: "0",
             ...remaining
         }
 
@@ -303,8 +304,8 @@ const createPayrollBonusService = async (data) => {
         totalSalary: newTotalSalary,
         date: lastPayroll?.date,
         netSalary: lastPayroll?.netSalary,
+        prevDue: lastPayroll?.due,
         due: lastPayroll?.due,
-        prevDue: lastPayroll?.prevDue,
         advance: lastPayroll?.advance,
         prevAdvance: lastPayroll?.prevAdvance,
         paymentMethod,
