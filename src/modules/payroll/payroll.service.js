@@ -280,7 +280,6 @@ const createPayrollBonusService = async (data) => {
             due: "0",
             ...remaining
         }
-
         const result = await Payroll.create(data)
 
         return {
