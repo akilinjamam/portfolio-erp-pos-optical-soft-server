@@ -15,7 +15,6 @@ module.exports.payrollValidationSchema = Joi.object({
     overtime: Joi.string().optional(),
     paymentMethod: Joi.string().optional(),
     transectionId: Joi.string().optional(),
-
 });
 
 

@@ -6,11 +6,8 @@ const expenseSchema = Joi.object({
 });
 
 const finalAccountsSchema = Joi.object({
-    totalProfit: Joi.string().optional(),
     extraProfitAmount: Joi.string().optional(),
     date: Joi.string().optional(),
-    totalExpense: Joi.string().optional(),
-    profitAllocation: Joi.string().optional(),
     expenses: Joi.array().items(expenseSchema).required()
 });
 
