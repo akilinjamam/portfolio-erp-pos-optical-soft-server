@@ -116,10 +116,14 @@ const getSalesService = async (queryValue, from, to) => {
     }
 
     const result = await Sale.find({});
+    const lastSale = await Sale.findOne({}).sort({ createdAt: -1 });
+    const upcomingInvoiceNumber = Number(lastSale?.invoiceBarcode) + 1;
+    console.log(upcomingInvoiceNumber)
 
     return {
         status: 200,
-        result
+        result,
+        upcomingInvoiceNumber
     }
 }
 const getOneMonthSalesService = async (queryValue, from, to) => {

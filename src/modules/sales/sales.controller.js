@@ -21,7 +21,8 @@ const getSalesController = tryCatchAsync(
             status: result.status,
             total: result.total,
             success: true,
-            result: result.result
+            result: result.result,
+            upcomingInvoiceNumber: result.upcomingInvoiceNumber
         })
     }
 )
