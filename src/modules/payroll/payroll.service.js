@@ -235,7 +235,9 @@ const createPayrollService = async (data) => {
 
     const netSalaryAfterAdvance = Number(data?.advance);
 
-    const newTotalSalary = (Number(lastPayroll?.totalSalary) - netSalaryAfterAdvance)?.toString();
+    const conditionalTotalSalary = Number(lastPayroll?.due) > 0 ? lastPayroll?.totalSalary : lastPayroll?.employeeName?.basicSalary;
+
+    const newTotalSalary = (Number(conditionalTotalSalary) - netSalaryAfterAdvance)?.toString();
 
     const newData = {
         employeeName: employeeName,
@@ -245,16 +247,16 @@ const createPayrollService = async (data) => {
         due: conditionalDue,
         advance: conditionalAdvance,
         prevAdvance: conditionalPrevAdvance,
-        netSalary,
+        netSalary: netSalary?.toString(),
         totalSalary: newTotalSalary,
         ...remainingData
     }
 
     const result = await Payroll.create(newData)
-
+    console.log(newData)
     return {
         status: 201,
-        result: result
+        result,
     }
 
 }
@@ -301,7 +303,7 @@ const createPayrollBonusService = async (data) => {
         incentive,
         overtime,
         totalSalary: newTotalSalary,
-        date: lastPayroll?.date,
+        date: data?.date,
         netSalary: lastPayroll?.netSalary,
         prevDue: lastPayroll?.due,
         due: lastPayroll?.due,
