@@ -166,6 +166,31 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
             result: range
         }
     }
+    if (from && to && queryValue) {
+        const range = await Sale.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(from),
+                        $lte: new Date(to)
+                    }
+                }
+            },
+            {
+                $match: {
+                    $or: fields?.map((item) => {
+                        return { [item]: { $regex: queryValue, $options: 'i' } }
+                    }),
+                },
+            },
+        ])
+
+        return {
+            status: 200,
+            total: range?.length,
+            result: range
+        }
+    }
 
     const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
     const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);

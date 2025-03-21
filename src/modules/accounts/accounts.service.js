@@ -229,6 +229,413 @@ const getAccountService = async (year, month, fullDate) => {
         result
     }
 }
+
+// const getAccountProfitExpensesService = async (yearMonth) => {
+
+//     const date = new Date();
+//     let year;
+//     let month;
+
+//     if (yearMonth) {
+//         const splitYear = yearMonth?.split('-')[0];
+//         const splitMonth = yearMonth?.split('-')[1];
+//         year = splitYear;
+//         month = splitMonth
+//     } else {
+//         year = date.getFullYear()
+//         month = (date.getMonth() + 1)?.toString()?.length > 1 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
+//     }
+
+//     let conditionValue = '';
+
+//     if (year && month) {
+//         conditionValue = { $regex: `${year}-${month}` }
+//     }
+
+//     const allProfitAllocation = await Account.find({ date: conditionValue }).sort({ createdAt: 1 });
+
+
+//     // console.log(allProfitAllocation);
+
+//     const getAllProfitAllocation = calculateTotal(allProfitAllocation?.map(profit => Number(profit?.profitAllocation)));
+
+//     const netCashProfit = getAllProfitAllocation
+
+
+//     const pipelineForCash = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 paymentMethod: 'Cash'
+//             }
+//         },
+
+//     ];
+
+//     const allCashSaleTransection = await Sale.aggregate(pipelineForCash)
+
+
+//     const calculateTotalCashSale = calculateTotal(allCashSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
+
+
+
+//     const netCash = calculateTotalCashSale
+
+//     console.log('net-cash', netCash);
+
+
+
+//     const pipelineForBank = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 paymentMethod: 'Bank'
+//             }
+//         },
+
+//     ];
+
+//     const allBankSaleTransection = await Sale.aggregate(pipelineForBank)
+
+
+
+
+//     const calculateTotalBackSale = calculateTotal(allBankSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
+
+
+
+//     const netBankProfit = calculateTotalBackSale
+
+//     console.log('net-bank-profit', netBankProfit);
+
+
+//     const pipelineForBkash = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 paymentMethod: 'Bkash'
+//             }
+//         },
+
+//     ];
+
+//     const allBkashSaleTransection = await Sale.aggregate(pipelineForBkash)
+
+
+
+//     const calculateTotalBkashSale = calculateTotal(allBkashSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
+
+
+
+//     const netBkashProfit = calculateTotalBkashSale
+
+//     console.log('net-bkash-profit', netBkashProfit);
+
+
+
+//     const pipelineForNogod = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 paymentMethod: 'Nogod'
+//             }
+//         },
+
+//     ];
+
+//     const allNogodSaleTransection = await Sale.aggregate(pipelineForNogod)
+
+
+
+//     const calculateTotalNogodSale = calculateTotal(allNogodSaleTransection?.map(item => Number(item?.paymentHistory?.split('+')?.slice(1, 2))));
+
+
+
+//     const netNogodProfit = calculateTotalNogodSale
+
+//     console.log('net-nogod-profit', netNogodProfit);
+
+
+
+
+//     const pipelineForRocket = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 paymentMethod: 'Rocket'
+//             }
+//         },
+
+//     ];
+
+//     const allRocketSaleTransection = await Sale.aggregate(pipelineForRocket)
+
+
+
+//     const calculateTotalRocketSale = calculateTotal(allRocketSaleTransection?.map(item => Number(item?.advance)));
+
+
+
+//     const netRocketProfit = calculateTotalRocketSale
+
+//     console.log('net-rocket-profit', netRocketProfit);
+
+
+
+//     const pipelineForCashDue = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 duePaymentMethod: 'Cash'
+//             }
+//         },
+
+//     ];
+
+//     const allCashSaleTransectionDue = await Sale.aggregate(pipelineForCashDue)
+
+
+
+
+//     const calculateTotalCashSaleDue = calculateTotal(allCashSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+//     const netCashDue = calculateTotalCashSaleDue
+
+//     console.log('net-cash-due', netCashDue);
+
+
+
+//     const pipelineForBankDue = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 duePaymentMethod: 'Bank'
+//             }
+//         },
+
+//     ];
+
+//     const allBankSaleTransectionDue = await Sale.aggregate(pipelineForBankDue)
+
+
+
+
+//     const calculateTotalBackSaleDue = calculateTotal(allBankSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+//     const netBankProfitDue = calculateTotalBackSaleDue
+
+//     console.log('net-bank-profit-due', netBankProfitDue);
+
+
+//     const pipelineForBkashDue = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 duePaymentMethod: 'Bkash'
+//             }
+//         },
+
+//     ];
+
+//     const allBkashSaleTransectionDue = await Sale.aggregate(pipelineForBkashDue)
+
+
+
+//     const calculateTotalBkashSaleDue = calculateTotal(allBkashSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+//     const netBkashProfitDue = calculateTotalBkashSaleDue
+
+//     console.log('net-bkash-profit-due', netBkashProfitDue);
+
+
+
+//     const pipelineForNogodDue = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 duePaymentMethod: 'Nogod'
+//             }
+//         },
+
+//     ];
+
+//     const allNogodSaleTransectionDue = await Sale.aggregate(pipelineForNogodDue)
+
+
+
+//     const calculateTotalNogodSaleDue = calculateTotal(allNogodSaleTransectionDue?.map(item => Number(item?.paymentHistory?.split('+')?.slice(2, 3))));
+
+
+
+//     const netNogodProfitDue = calculateTotalNogodSaleDue
+
+//     console.log('net-nogod-profit-due', netNogodProfitDue);
+
+
+
+
+//     const pipelineForRocketDue = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         },
+//         {
+//             $match: {
+//                 duePaymentMethod: 'Rocket'
+//             }
+//         },
+
+//     ];
+
+//     const allRocketSaleTransectionDue = await Sale.aggregate(pipelineForRocketDue)
+
+
+
+//     const calculateTotalRocketSaleDue = calculateTotal(allRocketSaleTransectionDue?.map(item => Number(item?.advance)));
+
+
+
+//     const netRocketProfitDue = calculateTotalRocketSaleDue
+
+//     console.log('net-rocket-profit-due', netRocketProfitDue);
+
+
+
+//     const totalProfitAmount = netCashProfit + netBankProfit + netBkashProfit + netNogodProfit + netRocketProfit + netBankProfitDue + netBkashProfitDue + netNogodProfitDue
+
+
+//     const pipelineForPayroll = [
+
+//         {
+//             $match: {
+//                 date: conditionValue
+//             }
+//         }
+
+//     ];
+
+//     const allPayrolls = await Payroll.aggregate(pipelineForPayroll);
+
+//     const CalculateTotalPaidSalary = calculateTotal(allPayrolls?.map(paid => Number(paid?.paid)))
+//     const CalculateTotalIncentiveSalary = calculateTotal(allPayrolls?.map(paid => Number(paid?.incentive)))
+//     const CalculateTotalBonusSalary = calculateTotal(allPayrolls?.map(paid => Number(paid?.overtime)))
+
+
+//     const totalPayrollExpenses = CalculateTotalPaidSalary + CalculateTotalIncentiveSalary + CalculateTotalBonusSalary
+
+//     console.log('salary-expense', totalPayrollExpenses);
+
+
+//     const pipelineForVendor = [
+
+//         {
+//             $match: {
+//                 paymentDate: conditionValue
+//             }
+//         }
+
+//     ];
+
+//     const allVendors = await Vendor.aggregate(pipelineForVendor);
+
+//     const calculateAllPaidAmountVendors = calculateTotal(allVendors?.map(vendor => Number(vendor?.paid)));
+
+//     console.log('vendor-expenses', calculateAllPaidAmountVendors);
+
+
+//     const totalExpenses = calculateAllPaidAmountVendors + totalPayrollExpenses;
+
+//     const netProfit = totalProfitAmount - totalExpenses;
+
+//     const monthlyFixedExpenses = await FinalAccount.find({ date: conditionValue });
+
+
+
+//     const sumOfFixedExpenses = monthlyFixedExpenses?.flatMap(fixedExp => {
+//         return fixedExp?.expenses?.map(exp => Number(exp?.expenseAmount)).reduce((acc, curr) => acc + curr, 0);
+//     })?.reduce((acc, curr) => acc + curr, 0);
+
+//     console.log(sumOfFixedExpenses)
+
+//     const total = {
+//         cashProfit: netCashProfit,
+//         cashSale: netCash,
+//         cashDue: netCashDue,
+//         bankProfit: netBankProfit,
+//         bankDueCollection: netBankProfitDue,
+//         bkashProfit: netBkashProfit,
+//         bkashDueCollection: netBkashProfitDue,
+//         nogodProfit: netNogodProfit,
+//         nogodDueCollection: netNogodProfitDue,
+//         rocketProfit: netRocketProfit,
+//         totalProfit: totalProfitAmount,
+//         salaryExpenses: totalPayrollExpenses,
+//         vendorExpenses: calculateAllPaidAmountVendors,
+//         totalExpenses,
+//         fixedExpenses: sumOfFixedExpenses,
+//         netProfit: netProfit
+//     }
+
+//     return {
+//         status: 201,
+//         result: total
+//     }
+// }
+
+
 const getAccountProfitExpensesService = async (yearMonth) => {
 
     const date = new Date();
