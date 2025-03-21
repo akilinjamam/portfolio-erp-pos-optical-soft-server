@@ -129,7 +129,7 @@ const getSalesService = async (queryValue, from, to) => {
 const getOneMonthSalesService = async (queryValue, from, to) => {
 
     // query
-    const fields = ['customerName', 'address', 'phoneNumber', 'invoiceBarcode', 'paymentMethod', 'delivered', 'recorderName', 'referredBy']
+    const fields = ['customerName', 'address', 'phoneNumber', 'invoiceBarcode', 'delivered', 'recorderName', 'referredBy']
 
     if (queryValue) {
         const search = await Sale.aggregate([
