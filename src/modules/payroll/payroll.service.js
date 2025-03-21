@@ -162,7 +162,6 @@ const createPayrollService = async (data) => {
             status: 201,
             result
         }
-
     }
 
     const { employeeName, prevDue, paid, totalPaid, due, advance, prevAdvance, ...remainingData } = data;

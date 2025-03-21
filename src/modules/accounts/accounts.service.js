@@ -245,6 +245,11 @@ const getAccountProfitExpensesService = async (yearMonth) => {
         month = (date.getMonth() + 1)?.toString()?.length > 1 ? (date.getMonth() + 1) : `0${(date.getMonth() + 1)}`;
     }
 
+    const startDate = new Date(year, month - 1, 1); // First day of the month
+    const endDate = new Date(year, month, 1); // First day of the next month
+    endDate.setHours(23, 59, 59, 999)
+
+
     let conditionValue = '';
 
     if (year && month) {
@@ -265,7 +270,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -293,7 +298,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -322,7 +327,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -351,7 +356,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -381,7 +386,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -410,7 +415,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -440,7 +445,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -469,7 +474,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -498,7 +503,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -528,7 +533,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
 
         {
             $match: {
-                paymentDate: conditionValue
+                createdAt: { $gte: startDate, $lt: endDate }
             }
         },
         {
@@ -620,6 +625,7 @@ const getAccountProfitExpensesService = async (yearMonth) => {
         nogodProfit: netNogodProfit,
         nogodDueCollection: netNogodProfitDue,
         rocketProfit: netRocketProfit,
+        rocketDueCollection: netRocketProfitDue,
         totalProfit: totalProfitAmount,
         salaryExpenses: totalPayrollExpenses,
         vendorExpenses: calculateAllPaidAmountVendors,
