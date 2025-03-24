@@ -14,6 +14,7 @@ const accountsSchema = Joi.object({
     profitAllocation: Joi.string().optional(),
     startingCashReserved: Joi.string().optional(),
     deficit: Joi.string().optional(),
+    cashOver: Joi.string().optional(),
     endingCashReserved: Joi.string().required(),
     todayBankValue: Joi.number().required(),
     todayBkashValue: Joi.number().required(),

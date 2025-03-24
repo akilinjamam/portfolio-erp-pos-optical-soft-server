@@ -7,7 +7,7 @@ const Account = require("./accounts.model");
 
 const createAccountService = async (data) => {
 
-    const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount, todayBankValue, todayBkashValue, todayNogodValue } = data
+    const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount, todayBankValue, todayBkashValue, todayNogodValue, deficit, cashOver } = data
     console.log(startingCashReserved)
     const targetDate = new Date(date);
 
@@ -63,7 +63,8 @@ const createAccountService = async (data) => {
         endingCashReserved: endingCashReserved,
         salesAmount: totalSaleValue,
         totalSalesAmount: totalSalesAmountInString,
-        deficit: conditionalDeficit,
+        deficit: deficit ? deficit : '0',
+        cashOver: cashOver ? cashOver : '0',
         dueSalesAmount,
         todayBankValue,
         todayBkashValue,

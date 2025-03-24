@@ -48,6 +48,10 @@ const accountsSchema = mongoose.Schema({
         type: String,
         default: '0'
     },
+    cashOver: {
+        type: String,
+        default: '0'
+    },
     todayBankValue: {
         type: Number,
         required: true
