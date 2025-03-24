@@ -127,6 +127,10 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    cash_flow_summery: {
+        type: Boolean,
+        default: false
+    },
     manual_sales: {
         type: Boolean,
         default: false
