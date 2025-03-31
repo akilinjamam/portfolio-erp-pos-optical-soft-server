@@ -521,6 +521,7 @@ const getMonthlyDueCollectionSalesService = async (paymentDate) => {
     }, {});
 
 
+
     const dueObject = Object?.entries(monthlydueByDate)?.map(([date, data]) => ({
         date, ...data
     }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
