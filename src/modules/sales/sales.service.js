@@ -371,6 +371,10 @@ const getDueCollectionSalesService = async (paymentDate) => {
 
     const totalSales = allProducts?.[0]?.toString();
 
+
+    const monthlyDueAmount = result;
+    console.log(monthlyDueAmount)
+
     return {
         status: 200,
         result: {
@@ -385,6 +389,170 @@ const getDueCollectionSalesService = async (paymentDate) => {
     }
 
 
+}
+const getMonthlyDueCollectionSalesService = async (paymentDate) => {
+
+    const pipline = [
+        {
+            $match: {
+                paymentDate: { $regex: `${paymentDate?.slice(0, 7)}` },
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] }
+            }
+        }
+    ]
+    const piplineForCash = [
+        {
+            $match: {
+                paymentDate: { $regex: `${paymentDate?.slice(0, 7)}` },
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Cash',
+            }
+        }
+    ]
+    const piplineForBank = [
+        {
+            $match: {
+                paymentDate: { $regex: `${paymentDate?.slice(0, 7)}` },
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Bank',
+            }
+        }
+    ]
+    const piplineForBkash = [
+        {
+            $match: {
+                paymentDate: { $regex: `${paymentDate?.slice(0, 7)}` },
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Bkash',
+            }
+        }
+    ]
+    const piplineForNogod = [
+        {
+            $match: {
+                paymentDate: { $regex: `${paymentDate?.slice(0, 7)}` },
+                $expr: { $gt: [{ $toDouble: "$paidTime" }, 1] },
+                duePaymentMethod: 'Nogod',
+            }
+        }
+    ]
+
+    const dueCashPaid = await Sale.aggregate(piplineForCash)
+    const dueBankPaid = await Sale.aggregate(piplineForBank)
+    const dueBkashPaid = await Sale.aggregate(piplineForBkash)
+    const dueNogodPaid = await Sale.aggregate(piplineForNogod)
+
+    const dueCashPaidValue = calculateTotal(dueCashPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueBankPaidValue = calculateTotal(dueBankPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueBkashPaidValue = calculateTotal(dueBkashPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+    const dueNogodPaidValue = calculateTotal(dueNogodPaid?.map(cash => Number(cash?.todayPaid)))?.toString()
+
+    const result = await Sale.aggregate(pipline);
+
+    const allProducts = result?.flatMap(item => calculateTotal(item?.products?.map(saleValue => (Number(saleValue?.actualSalesPrice) * Number(saleValue?.quantity)))))
+    const todayTotalPaid = result?.map(paid => Number(paid?.todayPaid));
+    const totalPaidDueCollection = calculateTotal(todayTotalPaid)?.toString();
+
+    const monthlydueByDate = result?.reduce((acc, due) => {
+        const date = due?.paymentDate;
+
+        const duePaid = Number(due?.todayPaid) || 0;
+
+        if (!acc[date]) {
+            acc[date] = { due: 0 }
+        }
+
+        acc[date].due += duePaid;
+
+        return acc;
+    }, {});
+
+    const monthlydueCashByDate = dueCashPaid?.reduce((acc, due) => {
+        const date = due?.paymentDate;
+
+        const duePaid = Number(due?.todayPaid) || 0;
+
+        if (!acc[date]) {
+            acc[date] = { due: 0 }
+        }
+
+        acc[date].due += duePaid;
+
+        return acc;
+    }, {});
+    const monthlydueBankByDate = dueBankPaid?.reduce((acc, due) => {
+        const date = due?.paymentDate;
+
+        const duePaid = Number(due?.todayPaid) || 0;
+
+        if (!acc[date]) {
+            acc[date] = { due: 0 }
+        }
+
+        acc[date].due += duePaid;
+
+        return acc;
+    }, {});
+    const monthlydueBkashByDate = dueBkashPaid?.reduce((acc, due) => {
+        const date = due?.paymentDate;
+
+        const duePaid = Number(due?.todayPaid) || 0;
+
+        if (!acc[date]) {
+            acc[date] = { due: 0 }
+        }
+
+        acc[date].due += duePaid;
+
+        return acc;
+    }, {});
+    const monthlydueNogodByDate = dueNogodPaid?.reduce((acc, due) => {
+        const date = due?.paymentDate;
+
+        const duePaid = Number(due?.todayPaid) || 0;
+
+        if (!acc[date]) {
+            acc[date] = { due: 0 }
+        }
+
+        acc[date].due += duePaid;
+
+        return acc;
+    }, {});
+
+
+    const dueObject = Object?.entries(monthlydueByDate)?.map(([date, data]) => ({
+        date, ...data
+    }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
+    const dueCashObject = Object?.entries(monthlydueCashByDate)?.map(([date, data]) => ({
+        date, ...data
+    }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
+    const dueBankObject = Object?.entries(monthlydueBankByDate)?.map(([date, data]) => ({
+        date, ...data
+    }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
+    const dueBkashObject = Object?.entries(monthlydueBkashByDate)?.map(([date, data]) => ({
+        date, ...data
+    }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
+    const dueNogodObject = Object?.entries(monthlydueNogodByDate)?.map(([date, data]) => ({
+        date, ...data
+    }))?.sort((a, b) => new Date(a.date) - new Date(b.date))
+
+    return {
+        status: 200,
+        result: {
+            totalPaidDueCollection,
+            dailyDue: dueObject,
+            dailyCashDue: dueCashObject,
+            dailyBankDue: dueBankObject,
+            dailyBkashDue: dueBkashObject,
+            dailyNogodDue: dueNogodObject,
+            dueCashPaidValue,
+            dueBankPaidValue,
+            dueBkashPaidValue,
+            dueNogodPaidValue,
+            result
+        }
+    }
 }
 
 const updateSalesInfoService = async (id, data) => {
@@ -451,6 +619,7 @@ module.exports = {
     updateSalesAdjustmentService,
     cancelSalesAdjutmentService,
     getDueCollectionSalesService,
+    getMonthlyDueCollectionSalesService,
     updateSalesInfoService,
     updateProductInfoService
 }
