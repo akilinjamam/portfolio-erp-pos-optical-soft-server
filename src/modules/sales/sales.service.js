@@ -131,7 +131,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
     // query
     const fields = ['customerName', 'address', 'phoneNumber', 'invoiceBarcode', 'delivered', 'recorderName', 'referredBy', 'paymentMethod']
 
-    if (queryValue) {
+    if (queryValue && !from && !to) {
         const search = await Sale.aggregate([
             {
                 $match: {
