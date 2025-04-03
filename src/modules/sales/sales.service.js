@@ -148,7 +148,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
         }
     }
 
-    if (from && to) {
+    if (from && to && !queryValue) {
         const range = await Sale.aggregate([
             {
                 $match: {
@@ -173,23 +173,19 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
                     createdAt: {
                         $gte: new Date(from),
                         $lte: new Date(to)
-                    }
+                    },
+                    $or: fields.map((item) => ({
+                        [item]: { $regex: queryValue, $options: 'i' }
+                    }))
                 }
-            },
-            {
-                $match: {
-                    $or: fields?.map((item) => {
-                        return { [item]: { $regex: queryValue, $options: 'i' } }
-                    }),
-                },
-            },
-        ])
+            }
+        ]);
 
         return {
             status: 200,
-            total: range?.length,
+            total: range.length,
             result: range
-        }
+        };
     }
 
     const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
