@@ -2,6 +2,7 @@ const { default: mongoose } = require("mongoose");
 const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
+const moment = require("moment")
 
 const createSalesService = async (data) => {
     const { invoiceBarcode, ...remaining } = data
@@ -108,22 +109,30 @@ const getSalesService = async (queryValue, from, to) => {
             }
         ])
 
+
+        const lastSale = await Sale.findOne({}).sort({ createdAt: -1 });
+        const upcomingInvoiceNumber = Number(lastSale?.invoiceBarcode) + 1;
+        const modifiedInvoiceNumber = `${moment().format('YYYYMMDD')}${upcomingInvoiceNumber?.toString()?.slice(8)}`
+
+
         return {
             status: 200,
             total: range?.length,
-            result: range
+            upcomingInvoiceNumber: modifiedInvoiceNumber,
+            result: range,
+
         }
     }
 
     const result = await Sale.find({});
     const lastSale = await Sale.findOne({}).sort({ createdAt: -1 });
     const upcomingInvoiceNumber = Number(lastSale?.invoiceBarcode) + 1;
-    console.log(upcomingInvoiceNumber)
+    const modifiedInvoiceNumber = `${moment().format('YYYYMMDD')}${upcomingInvoiceNumber?.toString()?.slice(8)}`
 
     return {
         status: 200,
         result,
-        upcomingInvoiceNumber
+        upcomingInvoiceNumber: modifiedInvoiceNumber
     }
 }
 const getOneMonthSalesService = async (queryValue, from, to) => {
