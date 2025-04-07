@@ -34,7 +34,7 @@ const getProductService = async (queryValue, from, to, priceFrom, priceTo) => {
                 $match: {
                     $or: [
                         {
-                            updatedAt: {
+                            createdAt: {
                                 $gte: new Date(from),
                                 $lte: new Date(to)
                             }
