@@ -3,6 +3,7 @@ const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
 const moment = require("moment")
+const axios = require("axios")
 
 const createSalesService = async (data) => {
     const { invoiceBarcode, ...remaining } = data
@@ -63,6 +64,29 @@ const createSalesService = async (data) => {
 
         await session.commitTransaction();
         await session.endSession();
+
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'https://api.sms.net.bd/sendsms',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({
+                "api_key": "7wT879wsoMP4tJQq9Wb67TUP55GIn2AB2DxsWrnA",
+                "msg": `invoice: ${arrangeDate}${newBarcode}, customer: ${newData?.customerName}, phone: ${newData?.phoneNumber}, address: ${newData?.address}, delivery date: ${newData?.deliveryDate}, paid amount: ${newData?.advance}, due amount: ${newData?.due}`,
+                "to": "8801516708479"
+            })
+        };
+
+        await axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+            }).catch((error) => {
+                console.log(error);
+            })
+
 
         return {
             status: 201,
