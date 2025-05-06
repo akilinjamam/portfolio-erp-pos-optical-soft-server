@@ -8,7 +8,7 @@ const Account = require("./accounts.model");
 const createAccountService = async (data) => {
 
     const { date, endingCashReserved, startingCashReserved, expenses, salesId, dueSalesAmount, todayBankValue, todayBkashValue, todayNogodValue, deficit, cashOver } = data
-    console.log(startingCashReserved)
+    // console.log(startingCashReserved)
     const targetDate = new Date(date);
 
     const salesAccordingToDate = await Sale.find({
@@ -40,10 +40,10 @@ const createAccountService = async (data) => {
 
     const lastAccount = await Account.findOne({}).sort({ createdAt: -1 });
 
-    console.log(lastAccount)
+    // console.log(lastAccount)
 
     // const conditionalStartingCash = lastAccount ? lastAccount?.endingCashReserved : '0'
-    const conditionalStartingCash = startingCashReserved ? startingCashReserved : (lastAccount?.endingCashReserved ? lastAccount?.endingCashReserved : '0')
+    const conditionalStartingCash = startingCashReserved > '0' ? startingCashReserved : (lastAccount?.endingCashReserved ? lastAccount?.endingCashReserved : '0')
 
     const totalSalesWithBeginingCashAndDueCollection = Number(conditionalStartingCash) + Number(totalSaleValue) + Number(dueSalesAmount);
 
@@ -56,6 +56,8 @@ const createAccountService = async (data) => {
     const calculateProfitAllocation = totalSalesWithBeginingCashAndDueCollection - Number(totalExpenseValue) - Number(endingCashReserved)
     const calculateProfitAllocationInString = calculateProfitAllocation.toString();
 
+    console.log(conditionalStartingCash)
+    console.log(startingCashReserved)
     const newData = {
         totalExpense: totalExpenseValue,
         profitAllocation: calculateProfitAllocationInString,
@@ -73,7 +75,7 @@ const createAccountService = async (data) => {
         expenses
     }
 
-    console.log(newData)
+    // console.log(newData)
     await Account.create(newData)
 
 
