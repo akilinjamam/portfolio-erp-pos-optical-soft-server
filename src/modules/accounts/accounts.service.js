@@ -42,7 +42,8 @@ const createAccountService = async (data) => {
 
     console.log(lastAccount)
 
-    const conditionalStartingCash = lastAccount ? lastAccount?.endingCashReserved : '0'
+    // const conditionalStartingCash = lastAccount ? lastAccount?.endingCashReserved : '0'
+    const conditionalStartingCash = startingCashReserved ? startingCashReserved : (lastAccount?.endingCashReserved ? lastAccount?.endingCashReserved : '0')
 
     const totalSalesWithBeginingCashAndDueCollection = Number(conditionalStartingCash) + Number(totalSaleValue) + Number(dueSalesAmount);
 
