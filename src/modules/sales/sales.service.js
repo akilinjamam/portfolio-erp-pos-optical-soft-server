@@ -642,6 +642,85 @@ const updateProductInfoService = async (id, data) => {
 
 }
 
+
+const deleteSalesService = async (ids) => {
+
+    if (!Array.isArray(ids) || ids.length === 0) {
+        throw new Error('Invalid input: ids should be a non-empty array');
+    }
+
+    const session = await mongoose.startSession();
+
+    try {
+
+        session.startTransaction();
+
+
+        const soldProductIds = await Sale.find({ _id: { $in: ids } }, { products: 1 });
+        const allProducts = soldProductIds?.flatMap(item => item?.products)?.map(product => (
+            { id: product?.id, quantity: product?.quantity }
+        ));
+
+        const stockProductIds = await Products.find({ _id: { $in: allProducts?.map(product => product?.id) } }, { quantity: 1 });
+
+        const stockProductQuantity = stockProductIds?.map(stock => (
+            { id: stock?._id, quantity: Number(stock?.quantity) }
+        ));
+
+        const totalMap = new Map();
+
+        for (const item of stockProductQuantity) {
+            totalMap.set(item?.id.toString(), item?.quantity);
+        };
+
+
+        for (const item of allProducts) {
+            const idStr = item?.id.toString();
+            const quantity = totalMap.get(idStr) || 0;
+            totalMap.set(idStr, quantity + item?.quantity);
+        }
+
+
+        const combine = Array.from(totalMap.entries())?.map(([id, quantity]) => ({
+            id: new mongoose.Types.ObjectId(id),
+            quantity: quantity.toString()
+        }))
+
+        console.log(allProducts)
+        console.log(stockProductQuantity)
+        console.log(combine)
+
+        const bulkUpdate = stockProductQuantity?.map(update => ({
+            updateOne: {
+                filter: { _id: update?.id },
+                update: {
+                    $set: { quantity: update?.quantity, inStock: true }
+                }
+            }
+        }))
+
+        const result = await Sale.deleteMany({ _id: { $in: ids } }, { session });
+        await Products.bulkWrite(bulkUpdate, { session })
+
+        await session.commitTransaction();
+        await session.endSession();
+
+        return {
+            status: 200,
+            success: true,
+            result
+        }
+
+
+    } catch (error) {
+        console.log(error)
+        await session.abortTransaction();
+        await session.endSession();
+    }
+
+
+}
+
 module.exports = {
     createSalesService,
     getSalesService,
@@ -651,5 +730,7 @@ module.exports = {
     getDueCollectionSalesService,
     getMonthlyDueCollectionSalesService,
     updateSalesInfoService,
-    updateProductInfoService
+    updateProductInfoService,
+    deleteSalesService
 }
+
