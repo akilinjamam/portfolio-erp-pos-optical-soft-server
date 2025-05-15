@@ -187,6 +187,10 @@ const salesSchema = new mongoose.Schema({
         required: true,
         default: 'blank'
     },
+    totalQuantity: {
+        type: String,
+        default: '0'
+    },
     products: [productSchema] // Array of product subdocuments
 },
     {
