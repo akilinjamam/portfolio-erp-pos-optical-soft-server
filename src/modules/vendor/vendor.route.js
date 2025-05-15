@@ -11,6 +11,7 @@ vendorRouter.post('/create-vendor', runValidator(vendorValidationSchema), create
 vendorRouter.post('/bulk-delete', deleteVendorController)
 vendorRouter.get('/get-last-vendor/:id', getLastVendorController);
 vendorRouter.get('/', getVendorWithIdController)
+vendorRouter.get('/get-vendor-bill', getVendorWithIdController)
 vendorRouter.patch('/:id', updateVendorController)
 
 

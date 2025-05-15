@@ -1,5 +1,5 @@
 const tryCatchAsync = require("../../tryCatchAsync/tryCatchAsync")
-const { createVendorService, getLastVendorService, getVendorWithIdService, updateVendorService, deleteVendorService, createVendorBillService } = require("./vendor.service")
+const { createVendorService, getLastVendorService, getVendorWithIdService, updateVendorService, deleteVendorService, createVendorBillService, getVendorBillWithIdService } = require("./vendor.service")
 
 const createVendorBillController = tryCatchAsync(
     async (req, res) => {
@@ -49,6 +49,17 @@ const getVendorWithIdController = tryCatchAsync(
         })
     }
 )
+const getVendorWithBillIdController = tryCatchAsync(
+    async (req, res) => {
+        const { supplierName, year, month } = req.query;
+        const result = await getVendorBillWithIdService(supplierName, year, month)
+        res.status(201).json({
+            status: result.status,
+            success: true,
+            result: result.result
+        })
+    }
+)
 
 const updateVendorController = tryCatchAsync(
     async (req, res) => {
@@ -78,6 +89,7 @@ module.exports = {
     createVendorController,
     getLastVendorController,
     getVendorWithIdController,
+    getVendorWithBillIdController,
     updateVendorController,
     deleteVendorController
 }

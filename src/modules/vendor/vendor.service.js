@@ -307,6 +307,61 @@ const getVendorWithIdService = async (supplierName, year, month) => {
         }
     }
 }
+const getVendorBillWithIdService = async (supplierName, year, month) => {
+    let conditionValue = '';
+
+    if (year && month) {
+        conditionValue = { $regex: `^${year}-${month}` }
+    }
+
+
+    // if (!supplierName) {
+    //     return {
+    //         status: 201,
+    //         result: []
+    //     }
+    // }
+
+    if (!supplierName && !year && !month) {
+        const currentYear = new Date().getFullYear();
+        const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
+
+        const result = await Vendor.find({
+            billingDate: { $regex: `^${currentYear}-${currentMonth}` }
+        }).sort({ createdAt: -1 }).populate('supplierName');
+
+        return {
+            status: 201,
+            result
+        }
+    }
+
+    if (!supplierName && year && month) {
+        const result = await Vendor.find({ billingDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
+
+        return {
+            status: 201,
+            result
+        }
+    }
+
+    if (supplierName && !year && !month) {
+        const result = await Vendor.find({ supplierName: supplierName }).sort({ createdAt: -1 }).populate('supplierName');
+
+        return {
+            status: 201,
+            result
+        }
+    }
+
+    if (supplierName && year && month) {
+        const result = await Vendor.find({ supplierName: supplierName, billingDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
+        return {
+            status: 201,
+            result
+        }
+    }
+}
 
 const updateVendorService = async (id, body) => {
     const result = await Vendor.updateOne({ _id: id }, { $set: body }, { runValidator: true })
@@ -329,6 +384,7 @@ module.exports = {
     createVendorService,
     getLastVendorService,
     getVendorWithIdService,
+    getVendorBillWithIdService,
     updateVendorService,
     deleteVendorService
 }
