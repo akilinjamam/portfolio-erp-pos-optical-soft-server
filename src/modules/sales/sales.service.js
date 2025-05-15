@@ -686,11 +686,8 @@ const deleteSalesService = async (ids) => {
             quantity: quantity.toString()
         }))
 
-        console.log(allProducts)
-        console.log(stockProductQuantity)
-        console.log(combine)
 
-        const bulkUpdate = stockProductQuantity?.map(update => ({
+        const bulkUpdate = combine?.map(update => ({
             updateOne: {
                 filter: { _id: update?.id },
                 update: {
