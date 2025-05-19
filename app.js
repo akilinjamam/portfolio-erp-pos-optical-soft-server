@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const cors = require('cors');
+app.options('*', cors());
 const allRoutes = require('./src/routes');
 const passport = require('passport');
 // const globalErrorHandler = require('./src/errors/globalErrorHandler');
