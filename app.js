@@ -2,24 +2,6 @@ const express = require('express');
 const app = express();
 
 const cors = require('cors');
-app.options('*', cors());
-const allowedOrigins = [
-    `${process.env.CLIENT_URL_LINK}`,
-    'http://localhost:5173'
-];
-
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,POST,PUT,DELETE,PATCH',
-    credentials: true,
-}));
-
 const allRoutes = require('./src/routes');
 const passport = require('passport');
 // const globalErrorHandler = require('./src/errors/globalErrorHandler');
@@ -32,9 +14,13 @@ app.use(cookieParser());
 // Initialaizing Passport:
 app.use(passport.initialize());
 
-
-
-
+app.use(
+    cors({
+        origin: [`${process.env.CLIENT_URL_LINK}`, 'http://localhost:5173'],
+        methods: 'GET,POST,PUT,DELETE,PATCH',
+        credentials: true,
+    }),
+);
 
 
 
