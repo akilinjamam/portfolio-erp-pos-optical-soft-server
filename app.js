@@ -16,7 +16,7 @@ app.use(passport.initialize());
 
 app.use(
     cors({
-        origin: [`${process.env.CLIENT_URL_LINK}`, 'http://localhost:5173'],
+        origin: [`${process.env.CLIENT_URL_LINK}`],
         methods: 'GET,POST,PUT,DELETE,PATCH',
         credentials: true,
     }),
