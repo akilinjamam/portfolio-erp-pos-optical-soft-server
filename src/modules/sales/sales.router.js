@@ -15,7 +15,7 @@ salesRouter.patch('/:id', updateSalesAdjustmentController)
 salesRouter.patch('/cancel-sales-adjustment/:id', cancelSalesAdjustmentController)
 salesRouter.patch('/update-sales-info/:id', updateSalesInfoController)
 salesRouter.patch('/update-product-info/:id', updateProductInfoController)
-salesRouter.post('/delete-sales', passport.authenticate('jwt', { session: false }), deleteSalesInfoController)
+salesRouter.post('/delete-sales', deleteSalesInfoController)
 
 module.exports = salesRouter;
 
