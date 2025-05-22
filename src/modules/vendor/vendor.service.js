@@ -308,6 +308,7 @@ const getVendorWithIdService = async (supplierName, year, month) => {
     }
 }
 const getVendorBillWithIdService = async (supplierName, year, month) => {
+
     let conditionValue = '';
 
     if (year && month) {
@@ -323,6 +324,7 @@ const getVendorBillWithIdService = async (supplierName, year, month) => {
     // }
 
     if (!supplierName && !year && !month) {
+
         const currentYear = new Date().getFullYear();
         const currentMonth = String(new Date().getMonth() + 1).padStart(2, '0');
 
@@ -337,6 +339,7 @@ const getVendorBillWithIdService = async (supplierName, year, month) => {
     }
 
     if (!supplierName && year && month) {
+
         const result = await Vendor.find({ billingDate: conditionValue }).sort({ createdAt: -1 }).populate('supplierName');
 
         return {
@@ -346,6 +349,7 @@ const getVendorBillWithIdService = async (supplierName, year, month) => {
     }
 
     if (supplierName && !year && !month) {
+
         const result = await Vendor.find({ supplierName: supplierName }).sort({ createdAt: -1 }).populate('supplierName');
 
         return {

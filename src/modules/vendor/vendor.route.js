@@ -1,6 +1,6 @@
 const { runValidator } = require('../../joi_validation');
 const { vendorValidationSchema } = require('../../joi_validation/vendorSchema');
-const { createVendorController, getLastVendorController, deleteVendorController, getVendorWithIdController, updateVendorController, createVendorBillController } = require('./vendor.controller');
+const { createVendorController, getLastVendorController, deleteVendorController, getVendorWithIdController, updateVendorController, createVendorBillController, getVendorWithBillIdController } = require('./vendor.controller');
 
 const vendorRouter = require('express').Router();
 
@@ -11,7 +11,7 @@ vendorRouter.post('/create-vendor', runValidator(vendorValidationSchema), create
 vendorRouter.post('/bulk-delete', deleteVendorController)
 vendorRouter.get('/get-last-vendor/:id', getLastVendorController);
 vendorRouter.get('/', getVendorWithIdController)
-vendorRouter.get('/get-vendor-bill', getVendorWithIdController)
+vendorRouter.get('/get-vendor-bill', getVendorWithBillIdController)
 vendorRouter.patch('/:id', updateVendorController)
 
 

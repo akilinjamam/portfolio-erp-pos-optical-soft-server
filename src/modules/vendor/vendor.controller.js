@@ -51,6 +51,7 @@ const getVendorWithIdController = tryCatchAsync(
 )
 const getVendorWithBillIdController = tryCatchAsync(
     async (req, res) => {
+
         const { supplierName, year, month } = req.query;
         const result = await getVendorBillWithIdService(supplierName, year, month)
         res.status(201).json({
