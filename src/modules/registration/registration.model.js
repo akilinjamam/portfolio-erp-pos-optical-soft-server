@@ -59,6 +59,10 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    payroll_bonus: {
+        type: Boolean,
+        default: false
+    },
     payroll_list: {
         type: Boolean,
         default: false
@@ -95,11 +99,19 @@ const registrationSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    sold_product: {
+        type: Boolean,
+        default: false
+    },
     add_employee: {
         type: Boolean,
         default: false
     },
     add_vendor: {
+        type: Boolean,
+        default: false
+    },
+    add_vendor_bill: {
         type: Boolean,
         default: false
     },
