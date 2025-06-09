@@ -50,6 +50,7 @@ const productSchema = mongoose.Schema({
     },
     img: {
         type: String,
+        default: 'not added'
     },
     recorderName: {
         type: String,
