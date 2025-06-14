@@ -32,6 +32,7 @@ const employeeSchema = mongoose.Schema(
     },
     img: {
       type: String,
+      default: 'not added'
     },
   },
   {
