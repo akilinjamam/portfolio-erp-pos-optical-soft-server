@@ -17,6 +17,15 @@ app.use(cookieParser());
 // Initialaizing Passport:
 app.use(passport.initialize());
 
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: [`${process.env.CLIENT_URL_LINK}`],
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
 app.use(
     cors({
         origin: [`${process.env.CLIENT_URL_LINK}`, 'http://localhost:5173'],
@@ -26,14 +35,7 @@ app.use(
 );
 
 
-const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: ['https://opticalsoft-client.vercel.app'],
-        methods: ['GET', 'POST'],
-        credentials: true
-    }
-});
+
 
 
 
@@ -91,7 +93,8 @@ app.use((err, req, res, next) => {
     })
 })
 
-server.listen(5001, () => {
+const socketPort = process.env.SOCKET_PORT;
+server.listen(socketPort, () => {
     console.log('Server is running on port 5001');
 });
 
