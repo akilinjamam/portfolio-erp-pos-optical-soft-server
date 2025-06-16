@@ -1,11 +1,14 @@
 const express = require('express');
 const app = express();
-
+const port = process.env.PORT || 5000;
+const { Server } = require('socket.io');
+const http = require('http');
 const cors = require('cors');
 const allRoutes = require('./src/routes');
 const passport = require('passport');
 // const globalErrorHandler = require('./src/errors/globalErrorHandler');
 const cookieParser = require('cookie-parser');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -23,6 +26,16 @@ app.use(
 );
 
 
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: ['http://localhost:5173'],
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
+
 
 // all routes:
 allRoutes.map(route => {
@@ -35,6 +48,28 @@ app.get('/', (req, res) => {
         message: 'welcome to our server!'
     })
 })
+
+// Socket.IO logic
+let onlineUsers = new Map();
+
+io.on('connection', (socket) => {
+    console.log('user connected', socket.id);
+
+    socket.on('userOnline', (userId) => {
+        onlineUsers.set(userId, socket.id);
+        io.emit('updateOnlineUsers', Array.from(onlineUsers.keys()));
+    });
+
+    socket.on('disconnect', () => {
+        for (let [userId, sId] of onlineUsers.entries()) {
+            if (sId === socket.id) {
+                onlineUsers.delete(userId);
+                break;
+            }
+        }
+        io.emit('updateOnlineUsers', Array.from(onlineUsers.keys()));
+    });
+});
 
 // global error handle
 
@@ -55,6 +90,10 @@ app.use((err, req, res, next) => {
         message: 'server error'
     })
 })
+
+server.listen(5001, () => {
+    console.log('Server is running on port 5001');
+});
 
 
 module.exports = app;
