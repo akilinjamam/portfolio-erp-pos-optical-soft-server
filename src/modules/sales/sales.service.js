@@ -2,7 +2,8 @@ const { default: mongoose } = require("mongoose");
 const Sale = require("./sales.modal");
 const Products = require("../products/products.model");
 const calculateTotal = require("../../calculation/calculateSum");
-const moment = require("moment")
+const moment = require("moment");
+const { splitSalesValueWithPaymentMethod } = require("../../splitSalesAccrordingToPaymentMethod");
 // const axios = require("axios")
 
 const createSalesService = async (data) => {
@@ -239,7 +240,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
 
     return {
         status: 200,
-        result
+        result: splitSalesValueWithPaymentMethod(result)
     }
 }
 
@@ -287,17 +288,22 @@ const cancelSalesAdjutmentService = async (id) => {
     }
 
     const splitPaymentHistory = findSalesData?.paymentHistory?.split('+');
+    const splitPaymentMethodHistory = findSalesData?.paymentMethodHistory?.split('+')
 
 
     const totalInstallmentLength = splitPaymentHistory?.slice(1)?.length;
+    const totalPaymentMethodLenght = splitPaymentMethodHistory?.slice(1)?.length;
 
     if (totalInstallmentLength === 1) {
         throw new Error('No Adjutment added yet')
     }
 
+
     const totalInstallment = splitPaymentHistory?.slice(1);
+    const totalPaymentMethodHistory = `${splitPaymentMethodHistory?.slice(1, totalPaymentMethodLenght - 1)?.join('+')}`
 
     const lastInstallment = totalInstallment?.[totalInstallmentLength - 1];
+
 
     const updatedPaidTime = paidTime - 1;
     const updatedAdvance = advance - lastInstallment;
@@ -312,7 +318,8 @@ const cancelSalesAdjutmentService = async (id) => {
     const newUpdatedData = {
         paymentHistory: mappingRemainingInstallment.join(''),
         paidTime: updatedPaidTime,
-        advance: updatedAdvance
+        advance: updatedAdvance,
+        paymentMethodHistory: totalPaymentMethodHistory
     }
 
 

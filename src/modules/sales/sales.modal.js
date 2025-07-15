@@ -177,6 +177,11 @@ const salesSchema = new mongoose.Schema({
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket'],
         required: true
     },
+    paymentMethodHistory: {
+        type: String,
+        required: true,
+        default: '+Cash'
+    },
     duePaymentMethod: {
         type: String,
         enum: ['Bank', 'Cash', 'Bkash', 'Nogod', 'Rocket', 'blank'],
