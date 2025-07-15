@@ -292,7 +292,7 @@ const cancelSalesAdjutmentService = async (id) => {
 
 
     const totalInstallmentLength = splitPaymentHistory?.slice(1)?.length;
-    const totalPaymentMethodLenght = splitPaymentMethodHistory?.slice(1)?.length;
+    const totalPaymentMethodLenght = splitPaymentMethodHistory?.length;
 
     if (totalInstallmentLength === 1) {
         throw new Error('No Adjutment added yet')
@@ -300,7 +300,7 @@ const cancelSalesAdjutmentService = async (id) => {
 
 
     const totalInstallment = splitPaymentHistory?.slice(1);
-    const totalPaymentMethodHistory = `${splitPaymentMethodHistory?.slice(1, totalPaymentMethodLenght - 1)?.join('+')}`
+    const totalPaymentMethodHistory = `${splitPaymentMethodHistory?.slice(0, totalPaymentMethodLenght - 1)?.join('+')}`
 
     const lastInstallment = totalInstallment?.[totalInstallmentLength - 1];
 
