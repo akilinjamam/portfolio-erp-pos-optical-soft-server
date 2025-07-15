@@ -178,7 +178,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
         return {
             status: 200,
             total: search?.length,
-            result: search
+            result: splitSalesValueWithPaymentMethod(search)
         }
     }
 
@@ -197,7 +197,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
         return {
             status: 200,
             total: range?.length,
-            result: range
+            result: await splitSalesValueWithPaymentMethod(range)
         }
     }
     if (from && to && queryValue) {
@@ -218,7 +218,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
         return {
             status: 200,
             total: range.length,
-            result: range
+            result: await splitSalesValueWithPaymentMethod(range)
         };
     }
 
@@ -240,7 +240,7 @@ const getOneMonthSalesService = async (queryValue, from, to) => {
 
     return {
         status: 200,
-        result: splitSalesValueWithPaymentMethod(result)
+        result: await splitSalesValueWithPaymentMethod(result)
     }
 }
 
