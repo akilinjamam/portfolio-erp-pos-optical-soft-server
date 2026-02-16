@@ -1,8 +1,29 @@
-## License
+# Eyeline Optica ERP Demo
 
-Copyright (c) 2026 Injamam Islam Chowdhury  
-All Rights Reserved.
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
-This project is made publicly visible for portfolio and demonstration purposes only.
+---
 
-No permission is granted to use, copy, modify, distribute, sublicense, or sell any part of this software without explicit written consent from the author.
+## Overview
+
+This is a **portfolio/demo version** of an ERP POS system.  
+It demonstrates a full-stack MERN architecture with the following features:
+
+- Modular backend architecture (Node.js + Express)
+- Sales, payroll, inventory, and expense management modules
+- Secure JWT authentication & role-based access control
+- RESTful API endpoints with data validation using Zod
+- Cloud storage integration (Cloudinary)
+- Demo database with sample data for visualization purposes
+
+**Note:** This version is for demonstration and portfolio purposes only.
+
+---
+
+## Demo
+
+[Live Demo Link](https://portfolio-erp-pos-optical-soft-clie.vercel.app)
+
+> This is a generic demo. No real client data is used.
